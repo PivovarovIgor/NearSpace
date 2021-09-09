@@ -1,6 +1,5 @@
 package ru.brauer.nearspace.domain.repository.dto
 
-
 import com.google.gson.annotations.SerializedName
 
 data class ApodDTO(

@@ -10,7 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/cardview_dark_background"
-        android:scaleType="fitCenter"
-        tools:src="@drawable/ic_launcher_background" />
+        android:scaleType="fitStart"
+        android:src="@drawable/ic_baseline_no_photography_24" />
+
+    <include
+        android:id="@+id/including_bottom_sheet"
+        layout="@layout/bottom_sheet_layout" />
 
 </FrameLayout>
