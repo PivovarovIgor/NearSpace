@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Near space</string>
+    <string name="search_wiki">Search Wikipedia</string>
+    <string name="wiki_helper_text">Find any incomprehensible word.</string>
 </resources>

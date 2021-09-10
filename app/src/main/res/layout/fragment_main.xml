@@ -1,20 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/cardview_dark_background"
     tools:context=".ui.main.MainFragment">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/search_wiki"
+        app:boxCornerRadiusBottomStart="30dp"
+        app:boxCornerRadiusTopStart="30dp"
+        app:counterEnabled="true"
+        app:counterMaxLength="20"
+        app:endIconCheckable="true"
+        app:endIconDrawable="@drawable/ic_wikipedia"
+        app:endIconMode="custom"
+        app:helperText="@string/wiki_helper_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/input_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
         android:id="@+id/astronomy_picture_of_the_dey"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/cardview_dark_background"
+        android:layout_height="0dp"
         android:scaleType="fitStart"
-        android:src="@drawable/ic_baseline_no_photography_24" />
+        android:src="@drawable/ic_baseline_no_photography_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input_layout" />
 
     <include
         android:id="@+id/including_bottom_sheet"
         layout="@layout/bottom_sheet_layout" />
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

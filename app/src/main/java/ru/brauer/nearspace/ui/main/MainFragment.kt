@@ -1,5 +1,7 @@
 package ru.brauer.nearspace.ui.main
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -41,6 +43,13 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setBottomSheetBehavior(binding.includingBottomSheet.bottomSheetContainer)
+
+        binding.inputLayout.setEndIconOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW).apply {
+                data =
+                    Uri.parse("https://en.wikipedia.org/wiki/${binding.inputEditText.text.toString()}")
+            })
+        }
 
         val repository = RepositoryImpl()
         repository.getApod(object : Callback<ApodDTO> {
