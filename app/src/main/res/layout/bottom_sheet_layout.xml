@@ -12,7 +12,7 @@
         android:background="#76767a"
         app:behavior_draggable="true"
         app:behavior_hideable="true"
-        app:behavior_peekHeight="50dp"
+        app:behavior_peekHeight="10dp"
         app:layout_behavior="@string/bottom_sheet_behavior">
 
         <View
