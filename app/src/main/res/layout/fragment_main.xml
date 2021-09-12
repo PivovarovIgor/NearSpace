@@ -32,17 +32,50 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/choice_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input_layout"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/choice_date_before_yesterday"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/before_yesterday" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/choice_date_yesterday"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/yesterday" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/choice_date_today"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/today" />
+
+    </com.google.android.material.chip.ChipGroup>
+
     <ImageView
         android:id="@+id/astronomy_picture_of_the_dey"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="55dp"
         android:contentDescription="@string/photo_of_the_day_stub"
-        android:scaleType="fitStart"
+        android:scaleType="fitCenter"
         android:src="@drawable/ic_baseline_no_photography_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/input_layout" />
+        app:layout_constraintTop_toBottomOf="@id/choice_date" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/bottom_app_bar_container"

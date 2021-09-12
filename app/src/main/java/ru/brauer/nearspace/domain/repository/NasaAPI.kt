@@ -8,6 +8,7 @@ import ru.brauer.nearspace.domain.repository.dto.ApodDTO
 interface NasaAPI {
     @GET("planetary/apod")
     fun getApod(
-        @Query("api_key") apiKey: String
+        @Query("api_key") apiKey: String,
+        @Query("date") date: String?
     ): Call<ApodDTO>
 }

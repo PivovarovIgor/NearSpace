@@ -17,10 +17,14 @@ import retrofit2.Callback
 import retrofit2.Response
 import ru.brauer.nearspace.R
 import ru.brauer.nearspace.databinding.FragmentMainBinding
+import ru.brauer.nearspace.domain.repository.Repository
 import ru.brauer.nearspace.domain.repository.RepositoryImpl
 import ru.brauer.nearspace.domain.repository.dto.ApodDTO
 import ru.brauer.nearspace.ui.MainActivity
 import ru.brauer.nearspace.ui.chips.ChipsFragment
+import ru.brauer.nearspace.util.getBeforeYesterday
+import ru.brauer.nearspace.util.getYesterdayDate
+import ru.brauer.nearspace.util.toFormate
 
 const val SAVING_STATE_IS_MAIN = "TAG_IS_MAIN"
 
@@ -32,6 +36,7 @@ class MainFragment : Fragment() {
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
     private var isMain: Boolean = true
+    private val repository: Repository by lazy { RepositoryImpl() }
 
     companion object {
 
@@ -62,6 +67,7 @@ class MainFragment : Fragment() {
 
         setBottomSheetBehavior(binding.includingBottomSheet.bottomSheetContainer)
         setBottomAppBar(view)
+        setChoiceDate(view)
 
         binding.inputLayout.setEndIconOnClickListener {
             startActivity(Intent(Intent.ACTION_VIEW).apply {
@@ -79,8 +85,11 @@ class MainFragment : Fragment() {
                 }
         }
 
-        val repository = RepositoryImpl()
-        repository.getApod(
+        getApod()
+    }
+
+    private fun getApod(date: Long? = null) {
+        repository.getApod(date?.toFormate("yyyy-MM-dd"),
             object : Callback<ApodDTO> {
                 override fun onResponse(call: Call<ApodDTO>, response: Response<ApodDTO>) {
                     val serverResponse = response.body()
@@ -110,11 +119,26 @@ class MainFragment : Fragment() {
                             Snackbar.LENGTH_INDEFINITE
                         )
                             .setAction("Repeat") {
-                                repository.getApod(this)
+                                repository.getApod(null, this)
                             }
                     }
                 }
             })
+    }
+
+    private fun setChoiceDate(view: View) {
+        with(binding) {
+            if (choiceDate.checkedChipId == View.NO_ID) {
+                choiceDate.check(R.id.choice_date_today)
+            }
+            choiceDate.setOnCheckedChangeListener { group, checkedId ->
+                when (checkedId) {
+                    R.id.choice_date_today -> getApod()
+                    R.id.choice_date_yesterday -> getApod(getYesterdayDate())
+                    R.id.choice_date_before_yesterday -> getApod(getBeforeYesterday())
+                }
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -188,3 +212,4 @@ class MainFragment : Fragment() {
         _binding = null
     }
 }
+

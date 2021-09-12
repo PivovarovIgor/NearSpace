@@ -6,7 +6,7 @@ import ru.brauer.nearspace.domain.repository.dto.ApodDTO
 class RepositoryImpl(private val remoteDataSource: RemoteDataSource = RemoteDataSource()) :
     Repository {
 
-    override fun getApod(callback: Callback<ApodDTO>) {
-        remoteDataSource.getApod(callback)
+    override fun getApod(date:String?, callback: Callback<ApodDTO>) {
+        remoteDataSource.getApod(date, callback)
     }
 }

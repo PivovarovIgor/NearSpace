@@ -17,7 +17,7 @@ class RemoteDataSource {
         )
         .build().create(NasaAPI::class.java)
 
-    fun getApod(callback: Callback<ApodDTO>) {
-        nasaAPI.getApod(BuildConfig.NASA_API_KEY).enqueue(callback)
+    fun getApod(date: String?, callback: Callback<ApodDTO>) {
+        nasaAPI.getApod(BuildConfig.NASA_API_KEY, date).enqueue(callback)
     }
 }
