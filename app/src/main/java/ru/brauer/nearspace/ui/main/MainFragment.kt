@@ -20,6 +20,7 @@ import ru.brauer.nearspace.databinding.FragmentMainBinding
 import ru.brauer.nearspace.domain.repository.RepositoryImpl
 import ru.brauer.nearspace.domain.repository.dto.ApodDTO
 import ru.brauer.nearspace.ui.MainActivity
+import ru.brauer.nearspace.ui.chips.ChipsFragment
 
 const val SAVING_STATE_IS_MAIN = "TAG_IS_MAIN"
 
@@ -30,7 +31,7 @@ class MainFragment : Fragment() {
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
-    private var isMain: Boolean = false
+    private var isMain: Boolean = true
 
     companion object {
 
@@ -120,8 +121,13 @@ class MainFragment : Fragment() {
         when (item.itemId) {
             R.id.app_bar_fav -> Toast.makeText(context, R.string.favourite, Toast.LENGTH_LONG)
                 .show()
-            R.id.app_bar_settings -> Toast.makeText(context, R.string.settings, Toast.LENGTH_LONG)
-                .show()
+            R.id.app_bar_settings -> activity?.let {
+                it.supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.container, ChipsFragment.newInstance())
+                    .addToBackStack(null)
+                    .commit()
+            }
             android.R.id.home -> {
                 activity?.let {
                     BottomNavigationDrawerFragment().show(it.supportFragmentManager, "tag")
