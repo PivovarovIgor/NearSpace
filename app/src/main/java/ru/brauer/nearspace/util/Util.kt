@@ -5,7 +5,7 @@ import java.util.*
 const val MILLISECONDS_OF_ONE_DAY = 86_400_000
 
 fun getYesterdayDate(): Long {
-    val today = Calendar.getInstance()
+    val today = Calendar.getInstance(TimeZone.getTimeZone("America/Los_Angeles"))
     today.set(Calendar.MILLISECOND, 0)
     today.set(Calendar.SECOND, 0)
     today.set(Calendar.MINUTE, 0)

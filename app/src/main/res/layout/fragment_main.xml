@@ -65,13 +65,9 @@
     </com.google.android.material.chip.ChipGroup>
 
     <ImageView
+        style="@style/Photo.OfDay.OnBottomNavigation"
         android:id="@+id/astronomy_picture_of_the_dey"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="55dp"
-        android:contentDescription="@string/photo_of_the_day_stub"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_baseline_no_photography_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
