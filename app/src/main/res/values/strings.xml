@@ -12,4 +12,5 @@
     <string name="theme_default">Default</string>
     <string name="martian">Martian</string>
     <string name="choice_the_theme_of_app">Choice the theme of app</string>
+    <string name="add">add</string>
 </resources>

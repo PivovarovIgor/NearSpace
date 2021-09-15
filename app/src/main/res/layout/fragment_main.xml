@@ -46,27 +46,30 @@
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/before_yesterday" />
+            android:text="@string/before_yesterday"
+            app:shapeAppearanceOverlay="?attr/shapeAppearanceSmallComponent" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/choice_date_yesterday"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/yesterday" />
+            android:text="@string/yesterday"
+            app:shapeAppearanceOverlay="?attr/shapeAppearanceSmallComponent" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/choice_date_today"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/today" />
+            android:text="@string/today"
+            app:shapeAppearanceOverlay="?attr/shapeAppearanceSmallComponent" />
 
     </com.google.android.material.chip.ChipGroup>
 
     <ImageView
-        style="@style/Photo.OfDay.OnBottomNavigation"
         android:id="@+id/astronomy_picture_of_the_dey"
+        style="@style/Photo.OfDay.OnBottomNavigation"
         android:layout_width="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -97,8 +100,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="?attr/colorAccent"
-            android:contentDescription="add"
+            android:contentDescription="@string/add"
             app:layout_anchor="@id/bottom_app_bar"
+            app:shapeAppearanceOverlay="?attr/shapeAppearanceMediumComponent"
             app:srcCompat="@drawable/ic_plus_fab"
             app:tint="#FFFFFF" />
 
