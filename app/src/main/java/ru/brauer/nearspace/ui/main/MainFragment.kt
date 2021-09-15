@@ -22,6 +22,7 @@ import ru.brauer.nearspace.domain.repository.RepositoryImpl
 import ru.brauer.nearspace.domain.repository.dto.ApodDTO
 import ru.brauer.nearspace.ui.MainActivity
 import ru.brauer.nearspace.ui.chips.ChipsFragment
+import ru.brauer.nearspace.ui.settings.SettingsFragment
 import ru.brauer.nearspace.util.getBeforeYesterday
 import ru.brauer.nearspace.util.getYesterdayDate
 import ru.brauer.nearspace.util.toFormate
@@ -148,7 +149,7 @@ class MainFragment : Fragment() {
             R.id.app_bar_settings -> activity?.let {
                 it.supportFragmentManager
                     .beginTransaction()
-                    .replace(R.id.container, ChipsFragment.newInstance())
+                    .replace(R.id.container, SettingsFragment.newInstance())
                     .addToBackStack(null)
                     .commit()
             }

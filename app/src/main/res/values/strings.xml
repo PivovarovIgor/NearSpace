@@ -9,4 +9,7 @@
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     <string name="before_yesterday">Before yesterday</string>
+    <string name="theme_default">Default</string>
+    <string name="martian">Martian</string>
+    <string name="choice_the_theme_of_app">Choice the theme of app</string>
 </resources>

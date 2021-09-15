@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cardview_dark_background"
     tools:context=".ui.main.MainFragment">
 
     <com.google.android.material.textfield.TextInputLayout
@@ -86,7 +86,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:backgroundTint="@color/design_default_color_primary"
+            android:backgroundTint="?attr/colorPrimary"
             app:fabAlignmentMode="center"
             app:hideOnScroll="true"
             app:layout_scrollFlags="scroll|enterAlways"
@@ -96,7 +96,7 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/color_accent"
+            android:backgroundTint="?attr/colorAccent"
             android:contentDescription="add"
             app:layout_anchor="@id/bottom_app_bar"
             app:srcCompat="@drawable/ic_plus_fab"

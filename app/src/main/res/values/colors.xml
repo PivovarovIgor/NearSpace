@@ -10,4 +10,13 @@
     <color name="color_accent">#FF0000</color>
 
     <color name="line_background">#663b4351</color>
+
+    <color name="yellow_600">#FB8C00</color>
+    <color name="blue_100">#BBDEFB</color>
+    <color name="blue_300">#4FC3F7</color>
+
+    <color name="orange_400">#FF7043</color>
+    <color name="orange_600">#F4511E</color>
+    <color name="orange_900">#BF360C</color>
+
 </resources>
