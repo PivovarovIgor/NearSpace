@@ -1,115 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.main.MainFragment">
+    android:layout_height="match_parent">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/input_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/search_wiki"
-        app:boxCornerRadiusBottomStart="30dp"
-        app:boxCornerRadiusTopStart="30dp"
-        app:counterEnabled="true"
-        app:counterMaxLength="20"
-        app:endIconCheckable="true"
-        app:endIconDrawable="@drawable/ic_wikipedia"
-        app:endIconMode="custom"
-        app:helperText="@string/wiki_helper_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/input_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/choice_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/input_layout"
-        app:singleSelection="true">
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/choice_date_before_yesterday"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/before_yesterday"
-            app:shapeAppearanceOverlay="?attr/shapeAppearanceSmallComponent" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/choice_date_yesterday"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/yesterday"
-            app:shapeAppearanceOverlay="?attr/shapeAppearanceSmallComponent" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/choice_date_today"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/today"
-            app:shapeAppearanceOverlay="?attr/shapeAppearanceSmallComponent" />
-
-    </com.google.android.material.chip.ChipGroup>
-
-    <ImageView
-        android:id="@+id/astronomy_picture_of_the_dey"
-        style="@style/Photo.OfDay.OnBottomNavigation"
-        android:layout_width="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/choice_date" />
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/bottom_app_bar_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        tools:context=".ui.main.MainFragment">
 
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bottom_app_bar"
-            android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:backgroundTint="?attr/colorPrimary"
-            app:fabAlignmentMode="center"
-            app:hideOnScroll="true"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:navigationIcon="@drawable/ic_hamburger_menu_bottom_bar" />
+            android:hint="@string/search_wiki"
+            app:boxCornerRadiusBottomStart="30dp"
+            app:boxCornerRadiusTopStart="30dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="20"
+            app:endIconCheckable="true"
+            app:endIconDrawable="@drawable/ic_wikipedia"
+            app:endIconMode="custom"
+            app:helperText="@string/wiki_helper_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/choice_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="?attr/colorAccent"
-            android:contentDescription="@string/add"
-            app:layout_anchor="@id/bottom_app_bar"
-            app:shapeAppearanceOverlay="?attr/shapeAppearanceMediumComponent"
-            app:srcCompat="@drawable/ic_plus_fab"
-            app:tint="#FFFFFF" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/input_layout"
+            app:singleSelection="true">
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/choice_date_before_yesterday"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/before_yesterday"
+                app:shapeAppearanceOverlay="?attr/shapeAppearanceSmallComponent" />
 
-    <include
-        android:id="@+id/including_bottom_sheet"
-        layout="@layout/bottom_sheet_layout" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/choice_date_yesterday"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/yesterday"
+                app:shapeAppearanceOverlay="?attr/shapeAppearanceSmallComponent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/choice_date_today"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/today"
+                app:shapeAppearanceOverlay="?attr/shapeAppearanceSmallComponent" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <ImageView
+            android:id="@+id/astronomy_picture_of_the_dey"
+            style="@style/Photo.OfDay.OnBottomNavigation"
+            android:layout_width="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/choice_date" />
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/bottom_app_bar_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.bottomappbar.BottomAppBar
+                android:id="@+id/bottom_app_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:backgroundTint="?attr/colorPrimary"
+                app:fabAlignmentMode="center"
+                app:hideOnScroll="true"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:navigationIcon="@drawable/ic_hamburger_menu_bottom_bar" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="?attr/colorAccent"
+                android:contentDescription="@string/add"
+                app:layout_anchor="@id/bottom_app_bar"
+                app:shapeAppearanceOverlay="?attr/shapeAppearanceMediumComponent"
+                app:srcCompat="@drawable/ic_plus_fab"
+                app:tint="#FFFFFF" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <include
+            android:id="@+id/including_bottom_sheet"
+            layout="@layout/bottom_sheet_layout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginBottom="80dp"
+            android:src="@drawable/swipe_indicator_active" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginBottom="80dp"
+            android:src="@drawable/swipe_indicator_passive" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginBottom="80dp"
+            android:src="@drawable/swipe_indicator_passive" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginBottom="100dp"
+            android:src="@drawable/swipe_indicator_passive" />
+
+    </LinearLayout>
+
+</FrameLayout>
