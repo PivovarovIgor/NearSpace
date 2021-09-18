@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity() {
         setTheme(SettingsStorage(this).theme)
         setContentView(binding.root)
 
-        binding.viewPagerAdapter.adapter = ViewPagerAdapter(supportFragmentManager)
+        binding.viewPager.adapter = ViewPagerAdapter(supportFragmentManager)
+        binding.indicator.setViewPager(binding.viewPager)
     }
 }

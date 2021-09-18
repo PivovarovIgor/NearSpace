@@ -58,7 +58,6 @@ class MainFragment : Fragment() {
         savedInstanceState?.let {
             isMain = it.getBoolean(SAVING_STATE_IS_MAIN)
         }
-
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -239,17 +238,6 @@ class MainFragment : Fragment() {
             request: WebResourceRequest?
         ): Boolean {
             return true
-        }
-
-        override fun onRenderProcessGone(
-            view: WebView?,
-            detail: RenderProcessGoneDetail?
-        ): Boolean {
-            return super.onRenderProcessGone(view, detail)
-        }
-
-        override fun onUnhandledKeyEvent(view: WebView?, event: KeyEvent?) {
-            super.onUnhandledKeyEvent(view, event)
         }
     }
 }
