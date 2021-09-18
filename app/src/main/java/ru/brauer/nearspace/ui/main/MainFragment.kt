@@ -4,6 +4,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
+import android.webkit.RenderProcessGoneDetail
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -28,6 +32,7 @@ import ru.brauer.nearspace.util.getYesterdayDate
 import ru.brauer.nearspace.util.toFormate
 
 const val SAVING_STATE_IS_MAIN = "TAG_IS_MAIN"
+private const val MEDIA_TYPE_VIDEO = "video"
 
 class MainFragment : Fragment() {
 
@@ -70,6 +75,9 @@ class MainFragment : Fragment() {
         setBottomAppBar(view)
         setChoiceDate(view)
 
+        binding.showVideo.webViewClient = MyWebViewClient()
+        binding.showVideo.settings.javaScriptEnabled = true
+
         binding.inputLayout.setEndIconOnClickListener {
             startActivity(Intent(Intent.ACTION_VIEW).apply {
                 data =
@@ -97,7 +105,14 @@ class MainFragment : Fragment() {
                     if (response.isSuccessful && serverResponse != null) {
                         _binding?.let {
                             it.astronomyPictureOfTheDey.contentDescription = serverResponse.title
-                            it.astronomyPictureOfTheDey.load(serverResponse.url)
+                            if (serverResponse.mediaType == MEDIA_TYPE_VIDEO
+                                && serverResponse.url != null) {
+                                it.showVideo.visibility = View.VISIBLE
+                                it.showVideo.loadUrl(serverResponse.url)
+                            } else {
+                                it.showVideo.visibility = View.GONE
+                                it.astronomyPictureOfTheDey.load(serverResponse.url)
+                            }
                             it.includingBottomSheet.bottomSheetDescriptionHeader.text =
                                 serverResponse.explanation
                             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -211,6 +226,31 @@ class MainFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private inner class MyWebViewClient : WebViewClient() {
+
+        override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+            return true
+        }
+
+        override fun shouldOverrideUrlLoading(
+            view: WebView?,
+            request: WebResourceRequest?
+        ): Boolean {
+            return true
+        }
+
+        override fun onRenderProcessGone(
+            view: WebView?,
+            detail: RenderProcessGoneDetail?
+        ): Boolean {
+            return super.onRenderProcessGone(view, detail)
+        }
+
+        override fun onUnhandledKeyEvent(view: WebView?, event: KeyEvent?) {
+            super.onUnhandledKeyEvent(view, event)
+        }
     }
 }
 

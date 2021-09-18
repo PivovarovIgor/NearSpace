@@ -72,14 +72,28 @@
 
         </com.google.android.material.chip.ChipGroup>
 
-        <ImageView
-            android:id="@+id/astronomy_picture_of_the_dey"
-            style="@style/Photo.OfDay.OnBottomNavigation"
+        <FrameLayout
+            style="@style/Photo.OnBottomNavigation"
             android:layout_width="match_parent"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/choice_date" />
+            app:layout_constraintTop_toBottomOf="@id/choice_date">
+
+            <ImageView
+                android:id="@+id/astronomy_picture_of_the_dey"
+                style="@style/Photo.OfDay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <WebView
+                android:id="@+id/show_video"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
+        </FrameLayout>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/bottom_app_bar_container"

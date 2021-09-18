@@ -34,7 +34,7 @@
         <item name="android:contentDescription">@string/photo_of_the_day_stub</item>
     </style>
 
-    <style name="Photo.OfDay.OnBottomNavigation">
+    <style name="Photo.OnBottomNavigation">
         <item name="android:layout_marginBottom">55dp</item>
     </style>
 
