@@ -23,4 +23,13 @@ class ViewPagerAdapter(private val fragmentManager: FragmentManager) : FragmentS
 
     override fun getItem(position: Int): Fragment = fragments[position]
 
+    override fun getPageTitle(position: Int): CharSequence? =
+        when (position) {
+            0 -> "Picture of day"
+            1 -> "Earth"
+            2 -> "Mars"
+            3 -> "Weather"
+            else -> "undefine"
+        }
+
 }
