@@ -5,11 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".ui.earth.EarthFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Earth"
-        android:textAppearance="?attr/textAppearanceHeadline2" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/earth"
+        android:src="@drawable/bg_earth" />
 
 </FrameLayout>

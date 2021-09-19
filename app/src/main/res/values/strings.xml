@@ -13,4 +13,7 @@
     <string name="martian">Martian</string>
     <string name="choice_the_theme_of_app">Choice the theme of app</string>
     <string name="add">add</string>
+    <string name="mars">Mars</string>
+    <string name="earth">Earth</string>
+    <string name="weather_of_space">Weather of space</string>
 </resources>
