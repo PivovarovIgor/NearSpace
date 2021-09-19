@@ -4,36 +4,19 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
-import android.webkit.RenderProcessGoneDetail
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import coil.load
+import androidx.viewpager.widget.ViewPager
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.snackbar.Snackbar
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import ru.brauer.nearspace.R
 import ru.brauer.nearspace.databinding.FragmentMainBinding
-import ru.brauer.nearspace.domain.repository.Repository
-import ru.brauer.nearspace.domain.repository.RepositoryImpl
-import ru.brauer.nearspace.domain.repository.dto.ApodDTO
 import ru.brauer.nearspace.ui.BottomActivity
 import ru.brauer.nearspace.ui.MainActivity
-import ru.brauer.nearspace.ui.chips.ChipsFragment
 import ru.brauer.nearspace.ui.settings.SettingsFragment
-import ru.brauer.nearspace.util.getBeforeYesterday
-import ru.brauer.nearspace.util.getYesterdayDate
-import ru.brauer.nearspace.util.toFormate
 
 const val SAVING_STATE_IS_MAIN = "TAG_IS_MAIN"
-private const val MEDIA_TYPE_VIDEO = "video"
 
 class MainFragment : Fragment() {
 
@@ -43,7 +26,6 @@ class MainFragment : Fragment() {
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
     private var isMain: Boolean = true
-    private val repository: Repository by lazy { RepositoryImpl() }
 
     companion object {
 
@@ -73,10 +55,7 @@ class MainFragment : Fragment() {
 
         setBottomSheetBehavior(binding.includingBottomSheet.bottomSheetContainer)
         setBottomAppBar(view)
-        setChoiceDate(view)
-
-        binding.showVideo.webViewClient = MyWebViewClient()
-        binding.showVideo.settings.javaScriptEnabled = true
+        setPager()
 
         binding.inputLayout.setEndIconOnClickListener {
             startActivity(Intent(Intent.ACTION_VIEW).apply {
@@ -84,77 +63,41 @@ class MainFragment : Fragment() {
                     Uri.parse("https://en.wikipedia.org/wiki/${binding.inputEditText.text.toString()}")
             })
         }
-
-        binding.astronomyPictureOfTheDey.setOnClickListener {
-            bottomSheetBehavior.state =
-                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
-                    BottomSheetBehavior.STATE_HIDDEN
-                } else {
-                    BottomSheetBehavior.STATE_EXPANDED
-                }
-        }
-
-        getApod()
     }
 
-    private fun getApod(date: Long? = null) {
-        repository.getApod(date?.toFormate("yyyy-MM-dd"),
-            object : Callback<ApodDTO> {
-                override fun onResponse(call: Call<ApodDTO>, response: Response<ApodDTO>) {
-                    val serverResponse = response.body()
-                    if (response.isSuccessful && serverResponse != null) {
-                        _binding?.let {
-                            it.astronomyPictureOfTheDey.contentDescription = serverResponse.title
-                            if (serverResponse.mediaType == MEDIA_TYPE_VIDEO
-                                && serverResponse.url != null) {
-                                it.showVideo.visibility = View.VISIBLE
-                                it.showVideo.loadUrl(serverResponse.url)
-                            } else {
-                                it.showVideo.visibility = View.GONE
-                                it.astronomyPictureOfTheDey.load(serverResponse.url)
-                            }
-                            it.includingBottomSheet.bottomSheetDescriptionHeader.text =
-                                serverResponse.explanation
-                            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+    private fun setPager() {
+        val pagerAdapter = ApodViewPagerAdapter(childFragmentManager)
+        binding.pagerPhotoOfDay.adapter = pagerAdapter
+        binding.pagerPhotoOfDay.currentItem = pagerAdapter.count - 1
+        binding.pagerPhotoOfDay.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
+
+            override fun onPageSelected(position: Int) {
+                val photoOfDayFragment = pagerAdapter.getItem(position) as? PhotoOfDayFragment
+                photoOfDayFragment?.let {
+                    _binding?.includingBottomSheet?.bottomSheetDescriptionHeader?.text =
+                        it.photoDescription
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                    it.setOnClickListener(object : PhotoOfDayFragment.OnClickListener {
+                        override fun onClickOnPhotoOfDay() {
+                            bottomSheetBehavior.state =
+                                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                                    BottomSheetBehavior.STATE_HIDDEN
+                                } else {
+                                    BottomSheetBehavior.STATE_EXPANDED
+                                }
                         }
-                    } else {
-                        showMessageAndToRepeat(response.message())
-                    }
-                }
-
-                override fun onFailure(call: Call<ApodDTO>, t: Throwable) {
-                    showMessageAndToRepeat(t.message ?: "Undefine problem.")
-                }
-
-                private fun showMessageAndToRepeat(message: String) {
-                    context?.let {
-                        Snackbar.make(
-                            it,
-                            binding.root,
-                            message,
-                            Snackbar.LENGTH_INDEFINITE
-                        )
-                            .setAction("Repeat") {
-                                repository.getApod(null, this)
-                            }
-                    }
-                }
-            })
-    }
-
-    private fun setChoiceDate(view: View) {
-        with(binding) {
-            if (choiceDate.checkedChipId == View.NO_ID) {
-                choiceDate.check(R.id.choice_date_today)
-            }
-            choiceDate.setOnCheckedChangeListener { group, checkedId ->
-                when (checkedId) {
-                    R.id.choice_date_today -> getApod()
-                    R.id.choice_date_yesterday -> getApod(getYesterdayDate())
-                    R.id.choice_date_before_yesterday -> getApod(getBeforeYesterday())
+                    })
                 }
             }
-        }
+
+            override fun onPageScrollStateChanged(state: Int) {}
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -227,20 +170,6 @@ class MainFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private inner class MyWebViewClient : WebViewClient() {
-
-        override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-            return true
-        }
-
-        override fun shouldOverrideUrlLoading(
-            view: WebView?,
-            request: WebResourceRequest?
-        ): Boolean {
-            return true
-        }
     }
 }
 
