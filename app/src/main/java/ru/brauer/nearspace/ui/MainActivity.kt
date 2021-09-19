@@ -20,8 +20,8 @@ class MainActivity : AppCompatActivity() {
         binding.tabLayout.setupWithViewPager(binding.viewPager)
         binding.indicator.setViewPager(binding.viewPager)
         binding.tabLayout.getTabAt(0)?.setIcon(R.drawable.ic_baseline_photo_size_select_actual_24)
-        binding.tabLayout.getTabAt(1)?.setIcon(R.drawable.bg_earth)
-        binding.tabLayout.getTabAt(2)?.setIcon(R.drawable.bg_mars)
-        binding.tabLayout.getTabAt(3)?.setIcon(R.drawable.bg_system)
+        binding.tabLayout.getTabAt(1)?.setIcon(R.drawable.ic_earth)
+        binding.tabLayout.getTabAt(2)?.setIcon(R.drawable.ic_mars)
+        binding.tabLayout.getTabAt(3)?.setIcon(R.drawable.ic_system)
     }
 }
