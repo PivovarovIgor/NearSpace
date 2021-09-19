@@ -12,24 +12,16 @@ class ViewPagerAdapter(private val fragmentManager: FragmentManager) : FragmentS
     fragmentManager,
     FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
 ) {
-    private val fragments = arrayOf(
-        MainFragment.newInstance(),
-        EarthFragment.newInstance(),
-        MarsFragment.newInstance(),
-        WeatherFragment.newInstance()
+    val fragments = arrayOf(
+        "Picture of day" to MainFragment.newInstance(),
+        "Earth" to EarthFragment.newInstance(),
+        "Mars" to MarsFragment.newInstance(),
+        "Weather" to WeatherFragment.newInstance()
     )
 
     override fun getCount(): Int = fragments.size
 
-    override fun getItem(position: Int): Fragment = fragments[position]
+    override fun getItem(position: Int): Fragment = fragments[position].second
 
-    override fun getPageTitle(position: Int): CharSequence? =
-        when (position) {
-            0 -> "Picture of day"
-            1 -> "Earth"
-            2 -> "Mars"
-            3 -> "Weather"
-            else -> "undefine"
-        }
-
+    override fun getPageTitle(position: Int): CharSequence = fragments[position].first
 }
