@@ -30,7 +30,20 @@ class BottomActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         EarthFragment.newInstance().show()
+
+        binding.bottomNavigationView.getOrCreateBadge(R.id.bottom_view_earth)
+        binding.bottomNavigationView.getOrCreateBadge(R.id.bottom_view_mars).apply {
+            number = 5
+        }
+        binding.bottomNavigationView.getOrCreateBadge(R.id.bottom_view_weather).apply {
+            number = 13
+            maxCharacterCount = 2
+        }
+
         binding.bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            binding.bottomNavigationView.getBadge(item.itemId)?.let {
+                binding.bottomNavigationView.removeBadge(item.itemId)
+            }
             when (item.itemId) {
                 R.id.bottom_view_earth -> EarthFragment.newInstance().show()
                 R.id.bottom_view_mars -> MarsFragment.newInstance().show()
