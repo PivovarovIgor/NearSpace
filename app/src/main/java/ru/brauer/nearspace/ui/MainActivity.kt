@@ -1,6 +1,7 @@
 package ru.brauer.nearspace.ui
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import ru.brauer.nearspace.R
 import ru.brauer.nearspace.databinding.ActivityMainBinding
@@ -18,10 +19,20 @@ class MainActivity : AppCompatActivity() {
 
         binding.viewPager.adapter = ViewPagerAdapter(supportFragmentManager)
         binding.tabLayout.setupWithViewPager(binding.viewPager)
+        setCustomTabs()
+
         binding.indicator.setViewPager(binding.viewPager)
-        binding.tabLayout.getTabAt(0)?.setIcon(R.drawable.ic_baseline_photo_size_select_actual_24)
-        binding.tabLayout.getTabAt(1)?.setIcon(R.drawable.ic_earth)
-        binding.tabLayout.getTabAt(2)?.setIcon(R.drawable.ic_mars)
-        binding.tabLayout.getTabAt(3)?.setIcon(R.drawable.ic_system)
+    }
+
+    private fun setCustomTabs() {
+        val layoutInfl = LayoutInflater.from(this)
+        binding.tabLayout.getTabAt(0)?.customView =
+            layoutInfl.inflate(R.layout.activity_custom_tab_picture_of_day, null)
+        binding.tabLayout.getTabAt(1)?.customView =
+            layoutInfl.inflate(R.layout.activity_custom_tab_earth, null)
+        binding.tabLayout.getTabAt(2)?.customView =
+            layoutInfl.inflate(R.layout.activity_custom_tab_mars, null)
+        binding.tabLayout.getTabAt(3)?.customView =
+            layoutInfl.inflate(R.layout.activity_custom_tab_weather, null)
     }
 }
