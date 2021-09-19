@@ -24,6 +24,7 @@ import ru.brauer.nearspace.databinding.FragmentMainBinding
 import ru.brauer.nearspace.domain.repository.Repository
 import ru.brauer.nearspace.domain.repository.RepositoryImpl
 import ru.brauer.nearspace.domain.repository.dto.ApodDTO
+import ru.brauer.nearspace.ui.BottomActivity
 import ru.brauer.nearspace.ui.MainActivity
 import ru.brauer.nearspace.ui.chips.ChipsFragment
 import ru.brauer.nearspace.ui.settings.SettingsFragment
@@ -158,8 +159,9 @@ class MainFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.app_bar_fav -> Toast.makeText(context, R.string.favourite, Toast.LENGTH_LONG)
-                .show()
+            R.id.app_bar_fav -> activity?.let {
+                startActivity(Intent(it, BottomActivity::class.java))
+            }
             R.id.app_bar_settings -> activity?.let {
                 it.supportFragmentManager
                     .beginTransaction()
