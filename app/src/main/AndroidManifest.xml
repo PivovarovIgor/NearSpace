@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NearSpace">
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.BottomActivity"
+            android:name=".presentation.BottomActivity"
             android:exported="true" />
     </application>
 

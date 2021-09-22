@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.chips.ChipsFragment">
+    tools:context=".presentation.chips.ChipsFragment">
 
     <com.google.android.material.chip.Chip
         android:layout_width="wrap_content"
