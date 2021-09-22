@@ -16,4 +16,6 @@
     <string name="mars">Mars</string>
     <string name="earth">Earth</string>
     <string name="weather_of_space">Weather of space</string>
+    <string name="photo_of_day">Photo of day</string>
+    <string name="more">more</string>
 </resources>

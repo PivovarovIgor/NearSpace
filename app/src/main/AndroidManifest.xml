@@ -13,6 +13,9 @@
         android:theme="@style/Theme.NearSpace">
         <activity
             android:name=".presentation.MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".presentation.BottomActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,9 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".presentation.BottomActivity"
-            android:exported="true" />
     </application>
 
 </manifest>

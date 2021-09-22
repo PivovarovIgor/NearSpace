@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/bottom_view_photo_of_day"
+        android:icon="@drawable/ic_baseline_photo_size_select_actual_24"
+        android:title="@string/photo_of_day" />
+    <item
         android:id="@+id/bottom_view_earth"
         android:icon="@drawable/ic_earth"
-        android:title="@string/earth"/>
+        android:title="@string/earth" />
     <item
         android:id="@+id/bottom_view_mars"
         android:icon="@drawable/ic_mars"
-        android:title="@string/mars"/>
+        android:title="@string/mars" />
     <item
         android:id="@+id/bottom_view_weather"
         android:icon="@drawable/ic_system"
-        android:title="@string/weather_of_space"/>
+        android:title="@string/weather_of_space" />
+    <item
+        android:id="@+id/bottom_view_more"
+        android:icon="@drawable/ic_hamburger_menu_bottom_bar"
+        android:title="@string/more" />
 </menu>

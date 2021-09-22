@@ -7,9 +7,10 @@ import androidx.fragment.app.Fragment
 import ru.brauer.nearspace.R
 import ru.brauer.nearspace.databinding.ActivityBottomBinding
 import ru.brauer.nearspace.presentation.earth.EarthFragment
+import ru.brauer.nearspace.presentation.main.BottomNavigationDrawerFragment
+import ru.brauer.nearspace.presentation.main.MainFragment
 import ru.brauer.nearspace.presentation.mars.MarsFragment
 import ru.brauer.nearspace.presentation.weather.WeatherFragment
-
 
 class BottomActivity : AppCompatActivity() {
 
@@ -29,31 +30,30 @@ class BottomActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        EarthFragment.newInstance().show()
-
-        binding.bottomNavigationView.getOrCreateBadge(R.id.bottom_view_earth)
-        binding.bottomNavigationView.getOrCreateBadge(R.id.bottom_view_mars).apply {
-            number = 5
-        }
-        binding.bottomNavigationView.getOrCreateBadge(R.id.bottom_view_weather).apply {
-            number = 13
-            maxCharacterCount = 2
-        }
+        MainFragment.newInstance().show()
 
         binding.bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             binding.bottomNavigationView.getBadge(item.itemId)?.let {
                 binding.bottomNavigationView.removeBadge(item.itemId)
             }
             when (item.itemId) {
+                R.id.bottom_view_photo_of_day -> MainFragment.newInstance().show()
                 R.id.bottom_view_earth -> EarthFragment.newInstance().show()
                 R.id.bottom_view_mars -> MarsFragment.newInstance().show()
                 R.id.bottom_view_weather -> WeatherFragment.newInstance().show()
+                R.id.bottom_view_more -> {
+                    BottomNavigationDrawerFragment().show(supportFragmentManager, "tag")
+                    false
+                }
                 else -> false
             }
         }
 
         binding.bottomNavigationView.setOnNavigationItemReselectedListener { item ->
             when (item.itemId) {
+                R.id.bottom_view_photo_of_day -> {
+                    true
+                }
                 R.id.bottom_view_earth -> {
                     true
                 }
@@ -61,6 +61,9 @@ class BottomActivity : AppCompatActivity() {
                     true
                 }
                 R.id.bottom_view_weather -> {
+                    true
+                }
+                R.id.bottom_view_more -> {
                     true
                 }
             }
