@@ -8,6 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.brauer.nearspace.BuildConfig
 import ru.brauer.nearspace.data.network.response.ApodResponse
+import ru.brauer.nearspace.data.network.response.marsplanet.MarsRoverPhotoResponse
 
 private const val BASE_URL = "https://api.nasa.gov/"
 
@@ -21,10 +22,27 @@ class RemoteDataSource {
         )
         .build().create(NasaAPI::class.java)
 
-    fun getApod(date: String?, callbackResponse: CallbackApodResponse) {
+    fun getApod(date: String?, callbackResponse: CallbackResponse<ApodResponse>) {
 
-        val callback = object : Callback<ApodResponse> {
-            override fun onResponse(call: Call<ApodResponse>, response: Response<ApodResponse>) {
+        val callback = getCallback(callbackResponse)
+
+        nasaAPI
+            .getApod(BuildConfig.NASA_API_KEY, date)
+            .enqueue(callback)
+    }
+
+    fun getCuriosityPhotos(date: String?, callBackResponse: CallbackResponse<MarsRoverPhotoResponse>) {
+
+        val callback = getCallback(callBackResponse)
+
+        nasaAPI
+            .getCuriosityPhotos(BuildConfig.NASA_API_KEY, date)
+            .enqueue(callback)
+    }
+
+    private fun <T> getCallback(callbackResponse: CallbackResponse<T>) =
+        object : Callback<T> {
+            override fun onResponse(call: Call<T>, response: Response<T>) {
                 val serverResponse = response.body()
                 if (response.isSuccessful && serverResponse != null) {
                     callbackResponse.notify(serverResponse)
@@ -33,11 +51,8 @@ class RemoteDataSource {
                 }
             }
 
-            override fun onFailure(call: Call<ApodResponse>, t: Throwable) {
+            override fun onFailure(call: Call<T>, t: Throwable) {
                 callbackResponse.notify(t)
             }
         }
-
-        nasaAPI.getApod(BuildConfig.NASA_API_KEY, date).enqueue(callback)
-    }
 }

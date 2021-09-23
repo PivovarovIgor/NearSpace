@@ -2,11 +2,12 @@ package ru.brauer.nearspace.presentation.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import ru.brauer.nearspace.data.repository.RepositoryImpl
 import ru.brauer.nearspace.domain.entities.Apod
 import ru.brauer.nearspace.domain.interactor.ApodInteractor
 import ru.brauer.nearspace.domain.interactor.ApodInteractorImpl
 
-class PhotoOfDayViewModel(private val interactor: ApodInteractor = ApodInteractorImpl()) :
+class PhotoOfDayViewModel(private val interactor: ApodInteractor = ApodInteractorImpl(RepositoryImpl())) :
     ViewModel() {
 
     val photoOfDayLiveData: MutableLiveData<PhotoOfDayAppState> = MutableLiveData()

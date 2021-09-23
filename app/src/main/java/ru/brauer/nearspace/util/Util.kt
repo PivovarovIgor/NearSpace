@@ -1,4 +1,4 @@
-package ru.brauer.nearspace.presentation.util
+package ru.brauer.nearspace.util
 
 import java.util.*
 

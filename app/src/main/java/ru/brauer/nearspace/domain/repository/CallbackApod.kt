@@ -1,8 +1,8 @@
-package ru.brauer.nearspace.data.repository
+package ru.brauer.nearspace.domain.repository
 
 import ru.brauer.nearspace.domain.entities.Apod
 
-interface CallbackApod {
+interface Callback<T> {
         fun notify(response: Apod?, onServerFailureMessage: String? = null)
         fun notify(ex: Throwable)
 }

@@ -1,7 +1,7 @@
 package ru.brauer.nearspace.domain.repository
 
-import ru.brauer.nearspace.data.repository.CallbackApod
+import ru.brauer.nearspace.domain.entities.Apod
 
 interface Repository {
-    fun getApod(date:String?, callback: CallbackApod)
+    fun <T>getData(date:String?, callback: Callback<T>)
 }
