@@ -10,8 +10,6 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import coil.load
 import com.google.android.material.snackbar.Snackbar
 import ru.brauer.nearspace.databinding.FragmentPhotoOfDayBinding
@@ -87,10 +85,6 @@ class PhotoOfDayFragment : Fragment() {
                 }
             },
             date)
-//        viewModel.photoOfDayLiveData.observe(viewLifecycleOwner, Observer(::renderData))
-//        if (viewModel.photoOfDayLiveData.value == null) {
-//            viewModel.getPhotoOfDay(date)
-//        }
     }
 
     private fun renderData(photoOfDayAppState: PhotoOfDayAppState?) {
