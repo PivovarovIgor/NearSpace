@@ -17,10 +17,6 @@ class PhotoOfDayViewModel : ViewModel() {
 
     private val id = Random.nextInt(1000)
 
-    companion object {
-        private const val TODAY = Long.MAX_VALUE
-    }
-
     fun observe(lifecycleOwner: LifecycleOwner, renderData: RenderData, date: Long?) {
         Log.i("PhotoOfDayViewModel", id.toString())
         if (!cachedData.containsKey(date)) {
