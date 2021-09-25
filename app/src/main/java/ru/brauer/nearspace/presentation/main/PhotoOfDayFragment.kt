@@ -24,8 +24,19 @@ class PhotoOfDayFragment : Fragment() {
 
     private val viewModel: PhotoOfDayViewModel by activityViewModels()
 
-    var photoDescription: String = ""
-        private set
+    var showDescriptionOfPhoto: ((description: String) -> Unit)? = null
+    set(value) {
+        field = value
+        if (value != null) {
+            value(photoDescription)
+        }
+    }
+
+    private var photoDescription: String = ""
+    set(value) {
+        field = value
+        showDescriptionOfPhoto?.let { it(value) }
+    }
 
     private var date: Long? = null
 
@@ -138,6 +149,7 @@ class PhotoOfDayFragment : Fragment() {
         super.onDestroyView()
         binding = null
         clickListenerHolder = null
+        showDescriptionOfPhoto = null
     }
 
     interface OnClickListener {
