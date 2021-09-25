@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import coil.load
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import ru.brauer.nearspace.databinding.FragmentPhotoOfDayBinding
 import ru.brauer.nearspace.domain.entities.Apod
@@ -24,23 +26,9 @@ class PhotoOfDayFragment : Fragment() {
 
     private val viewModel: PhotoOfDayViewModel by activityViewModels()
 
-    var showDescriptionOfPhoto: ((description: String) -> Unit)? = null
-    set(value) {
-        field = value
-        if (value != null) {
-            value(photoDescription)
-        }
-    }
-
-    private var photoDescription: String = ""
-    set(value) {
-        field = value
-        showDescriptionOfPhoto?.let { it(value) }
-    }
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
     private var date: Long? = null
-
-    private var clickListenerHolder: OnClickListener? = null
 
     companion object {
 
@@ -50,15 +38,6 @@ class PhotoOfDayFragment : Fragment() {
                     Bundle().apply { putLong(KEY_DATE, it) }
                 }
             }
-    }
-
-    fun setOnClickListener(clickListener: OnClickListener?) {
-        clickListenerHolder = clickListener
-        binding?.apply {
-            astronomyPictureOfTheDey.setOnClickListener {
-                clickListenerHolder?.onClickOnPhotoOfDay()
-            }
-        }
     }
 
     override fun onCreateView(
@@ -73,8 +52,12 @@ class PhotoOfDayFragment : Fragment() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         date = arguments?.getLong(KEY_DATE)
         binding?.apply {
+
+            setBottomSheetBehavior(includingBottomSheet.bottomSheetContainer)
+
             showVideo.webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                     return true
@@ -88,14 +71,25 @@ class PhotoOfDayFragment : Fragment() {
                 }
             }
             showVideo.settings.javaScriptEnabled = true
+
+            astronomyPictureOfTheDey.setOnClickListener {
+                bottomSheetBehavior.state =
+                    if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                        BottomSheetBehavior.STATE_HIDDEN
+                    } else {
+                        BottomSheetBehavior.STATE_EXPANDED
+                    }
+            }
         }
-        viewModel.observe(viewLifecycleOwner,
+        viewModel.observe(
+            viewLifecycleOwner,
             object : PhotoOfDayViewModel.RenderData {
                 override fun renderData(appState: PhotoOfDayAppState?) {
                     this@PhotoOfDayFragment.renderData(appState)
                 }
             },
-            date)
+            date
+        )
     }
 
     private fun renderData(photoOfDayAppState: PhotoOfDayAppState?) {
@@ -124,7 +118,8 @@ class PhotoOfDayFragment : Fragment() {
                 showVideo.visibility = View.GONE
                 astronomyPictureOfTheDey.load(apod.url)
             }
-            photoDescription = apod.photoDescription
+            includingBottomSheet.bottomSheetDescriptionHeader.text =
+                apod.photoDescription
         }
     }
 
@@ -145,14 +140,13 @@ class PhotoOfDayFragment : Fragment() {
         }
     }
 
+    private fun setBottomSheetBehavior(bottomSheet: ConstraintLayout) {
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
-        clickListenerHolder = null
-        showDescriptionOfPhoto = null
-    }
-
-    interface OnClickListener {
-        fun onClickOnPhotoOfDay()
     }
 }

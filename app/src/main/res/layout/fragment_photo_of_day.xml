@@ -15,4 +15,8 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
+    <include
+        android:id="@+id/including_bottom_sheet"
+        layout="@layout/bottom_sheet_layout" />
+
 </FrameLayout>
