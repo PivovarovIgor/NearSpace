@@ -3,65 +3,70 @@ package ru.brauer.nearspace.presentation
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.content.ContextCompat
-import androidx.viewpager.widget.ViewPager
+import androidx.fragment.app.Fragment
 import ru.brauer.nearspace.R
 import ru.brauer.nearspace.databinding.ActivityMainBinding
-import ru.brauer.nearspace.presentation.settings.SettingsStorage
-
-private const val PHOTO_OF_DAY = 0
+import ru.brauer.nearspace.presentation.earth.EarthFragment
+import ru.brauer.nearspace.presentation.main.BottomNavigationDrawerFragment
+import ru.brauer.nearspace.presentation.main.MainFragment
+import ru.brauer.nearspace.presentation.mars.MarsFragment
+import ru.brauer.nearspace.presentation.weather.WeatherFragment
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
-    private val viewPageAdapter: ViewPagerAdapter by lazy { ViewPagerAdapter(supportFragmentManager) }
+    private fun Fragment.show(): Boolean {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.activity_bottom_container, this)
+            .commitAllowingStateLoss()
+        return true
+    }
+
+    private val binding: ActivityMainBinding by lazy {
+        ActivityMainBinding.inflate(
+            LayoutInflater.from(this@MainActivity)
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setTheme(SettingsStorage(this).theme)
         setContentView(binding.root)
+        MainFragment.newInstance().show()
 
-        binding.viewPager.adapter = viewPageAdapter
-        binding.tabLayout.setupWithViewPager(binding.viewPager)
-        setHighLightedTab(PHOTO_OF_DAY)
-        binding.indicator.setViewPager(binding.viewPager)
-
-        binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            binding.bottomNavigationView.getBadge(item.itemId)?.let {
+                binding.bottomNavigationView.removeBadge(item.itemId)
             }
-
-            override fun onPageSelected(position: Int) {
-                setHighLightedTab(position)
+            when (item.itemId) {
+                R.id.bottom_view_photo_of_day -> MainFragment.newInstance().show()
+                R.id.bottom_view_earth -> EarthFragment.newInstance().show()
+                R.id.bottom_view_mars -> MarsFragment.newInstance().show()
+                R.id.bottom_view_weather -> WeatherFragment.newInstance().show()
+                R.id.bottom_view_more -> {
+                    BottomNavigationDrawerFragment().show(supportFragmentManager, "tag")
+                    false
+                }
+                else -> false
             }
+        }
 
-            override fun onPageScrollStateChanged(state: Int) {}
-        })
-    }
-
-    private fun setHighLightedTab(position: Int) {
-        val layoutInflater = LayoutInflater.from(this) ?: return
-        viewPageAdapter.fragments.forEachIndexed { index, _ ->
-            binding.tabLayout.getTabAt(index)?.customView = null
-            val viewTab = layoutInflater.inflate(getIdLayout(index), null)
-            if (position == index) {
-                viewTab.findViewById<AppCompatTextView>(R.id.tab_image_textview)
-                    .setTextColor(ContextCompat.getColor(this@MainActivity, R.color.color_accent))
+        binding.bottomNavigationView.setOnNavigationItemReselectedListener { item ->
+            when (item.itemId) {
+                R.id.bottom_view_photo_of_day -> {
+                    true
+                }
+                R.id.bottom_view_earth -> {
+                    true
+                }
+                R.id.bottom_view_mars -> {
+                    true
+                }
+                R.id.bottom_view_weather -> {
+                    true
+                }
+                R.id.bottom_view_more -> {
+                    true
+                }
             }
-            binding.tabLayout.getTabAt(index)?.customView = viewTab
         }
     }
-
-    private fun getIdLayout(position: Int) =
-        when (position) {
-            1 -> R.layout.activity_custom_tab_earth
-            2 -> R.layout.activity_custom_tab_mars
-            3 -> R.layout.activity_custom_tab_weather
-            else -> R.layout.activity_custom_tab_picture_of_day
-        }
 }

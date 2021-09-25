@@ -1,21 +1,14 @@
 package ru.brauer.nearspace.presentation.main
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.view.*
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
-import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import ru.brauer.nearspace.R
 import ru.brauer.nearspace.databinding.FragmentMainBinding
-import ru.brauer.nearspace.presentation.BottomActivity
-import ru.brauer.nearspace.presentation.MainActivity
-import ru.brauer.nearspace.presentation.settings.SettingsFragment
 
 const val SAVING_STATE_IS_MAIN = "TAG_IS_MAIN"
 
@@ -46,24 +39,11 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_bottom_bar, menu)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setBottomSheetBehavior(binding.includingBottomSheet.bottomSheetContainer)
-        setBottomAppBar(view)
         setPager()
-
-        binding.inputLayout.setEndIconOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW).apply {
-                data =
-                    Uri.parse("https://en.wikipedia.org/wiki/${binding.inputEditText.text.toString()}")
-            })
-        }
     }
 
     private fun setPager() {
@@ -99,63 +79,6 @@ class MainFragment : Fragment() {
 
             override fun onPageScrollStateChanged(state: Int) {}
         })
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.app_bar_fav -> activity?.let {
-                startActivity(Intent(it, BottomActivity::class.java))
-            }
-            R.id.app_bar_settings -> activity?.let {
-                it.supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.container, SettingsFragment.newInstance())
-                    .addToBackStack(null)
-                    .commit()
-            }
-            android.R.id.home -> {
-                activity?.let {
-                    BottomNavigationDrawerFragment().show(it.supportFragmentManager, "tag")
-                }
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    private fun setBottomAppBar(view: View) {
-        val cont = activity as AppCompatActivity
-        cont.setSupportActionBar(view.findViewById(R.id.bottom_app_bar))
-        setHasOptionsMenu(true)
-
-        with(binding) {
-            fab.setOnClickListener {
-                if (isMain) {
-                    bottomAppBar.navigationIcon = null
-                    bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
-                    fab.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            requireContext(),
-                            R.drawable.ic_back_fab
-                        )
-                    )
-                    bottomAppBar.replaceMenu(R.menu.app_bar_other_screen)
-                } else {
-                    bottomAppBar.navigationIcon = ContextCompat.getDrawable(
-                        requireNotNull(context),
-                        R.drawable.ic_hamburger_menu_bottom_bar
-                    )
-                    bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
-                    fab.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            requireContext(),
-                            R.drawable.ic_plus_fab
-                        )
-                    )
-                    bottomAppBar.replaceMenu(R.menu.menu_bottom_bar)
-                }
-                isMain = !isMain
-            }
-        }
     }
 
     private fun setBottomSheetBehavior(bottomSheet: ConstraintLayout) {

@@ -113,7 +113,7 @@ class PhotoOfDayFragment : Fragment() {
                 showVideo.visibility = View.GONE
                 astronomyPictureOfTheDey.load(apod.url)
             }
-            photoDescription = apod.photoDescription ?: ""
+            photoDescription = apod.photoDescription
         }
     }
 
