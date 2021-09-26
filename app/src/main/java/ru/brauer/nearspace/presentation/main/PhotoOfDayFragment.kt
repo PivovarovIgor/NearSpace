@@ -75,7 +75,7 @@ class PhotoOfDayFragment : Fragment() {
             astronomyPictureOfTheDey.setOnClickListener {
                 bottomSheetBehavior.state =
                     if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
-                        BottomSheetBehavior.STATE_HIDDEN
+                        BottomSheetBehavior.STATE_COLLAPSED
                     } else {
                         BottomSheetBehavior.STATE_EXPANDED
                     }
