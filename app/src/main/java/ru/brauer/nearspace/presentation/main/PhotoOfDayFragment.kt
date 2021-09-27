@@ -2,6 +2,8 @@ package ru.brauer.nearspace.presentation.main
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.transition.TransitionManager
+import android.transition.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -95,7 +97,10 @@ class PhotoOfDayFragment : Fragment() {
     private fun renderData(photoOfDayAppState: PhotoOfDayAppState?) {
         when (photoOfDayAppState) {
             is PhotoOfDayAppState.Loading -> {
-
+                binding?.apply {
+                    showVideo.hide()
+                    astronomyPictureOfTheDey.hide()
+                }
             }
             is PhotoOfDayAppState.Error -> {
                 showMessageAndToRepeat(photoOfDayAppState.exception.message ?: "Undefine problem.")
@@ -112,11 +117,11 @@ class PhotoOfDayFragment : Fragment() {
             if (apod.mediaType == MEDIA_TYPE_VIDEO
                 && apod.url != null
             ) {
-                showVideo.visibility = View.VISIBLE
                 showVideo.loadUrl(apod.url)
+                showVideo.show()
             } else {
-                showVideo.visibility = View.GONE
                 astronomyPictureOfTheDey.load(apod.url)
+                astronomyPictureOfTheDey.show()
             }
             includingBottomSheet.bottomSheetDescriptionHeader.text =
                 apod.photoDescription
@@ -148,5 +153,16 @@ class PhotoOfDayFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+    }
+
+    private fun View.hide() {
+        visibility = View.GONE
+    }
+
+    private fun View.show() {
+        binding?.run {
+            TransitionManager.beginDelayedTransition(root, )
+        }
+        visibility = View.VISIBLE
     }
 }
