@@ -2,14 +2,18 @@ package ru.brauer.nearspace.presentation.main
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.transition.ChangeBounds
+import android.transition.ChangeImageTransform
 import android.transition.TransitionManager
-import android.transition.Visibility
+import android.transition.TransitionSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -81,6 +85,24 @@ class PhotoOfDayFragment : Fragment() {
                     } else {
                         BottomSheetBehavior.STATE_EXPANDED
                     }
+            }
+
+            astronomyPictureOfTheDey.setOnLongClickListener {
+                it as AppCompatImageView
+                TransitionManager.beginDelayedTransition(
+                    root,
+                    TransitionSet()
+                        .addTransition(ChangeBounds())
+                        .addTransition(ChangeImageTransform())
+                )
+
+                it.scaleType =
+                if (it.scaleType == ImageView.ScaleType.CENTER_CROP) {
+                    ImageView.ScaleType.FIT_CENTER
+                } else {
+                    ImageView.ScaleType.CENTER_CROP
+                }
+                true
             }
         }
         viewModel.observe(
@@ -161,7 +183,7 @@ class PhotoOfDayFragment : Fragment() {
 
     private fun View.show() {
         binding?.run {
-            TransitionManager.beginDelayedTransition(root, )
+            TransitionManager.beginDelayedTransition(root)
         }
         visibility = View.VISIBLE
     }
