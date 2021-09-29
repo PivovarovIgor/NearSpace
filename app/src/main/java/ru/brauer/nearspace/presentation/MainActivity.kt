@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
                 ?.let { router.state = it }
         }
 
-        binding.bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+        binding.bottomNavigationView.setOnItemSelectedListener { item ->
             binding.bottomNavigationView.getBadge(item.itemId)?.let {
                 binding.bottomNavigationView.removeBadge(item.itemId)
             }
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.bottomNavigationView.setOnNavigationItemReselectedListener { item ->
+        binding.bottomNavigationView.setOnItemReselectedListener { item ->
             when (item.itemId) {
                 R.id.bottom_view_photo_of_day -> {
                     true
