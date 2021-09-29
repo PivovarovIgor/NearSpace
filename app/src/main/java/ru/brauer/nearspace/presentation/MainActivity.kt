@@ -3,15 +3,8 @@ package ru.brauer.nearspace.presentation
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import ru.brauer.nearspace.R
 import ru.brauer.nearspace.databinding.ActivityMainBinding
-import ru.brauer.nearspace.presentation.earth.EarthFragment
-import ru.brauer.nearspace.presentation.main.BottomNavigationDrawerFragment
-import ru.brauer.nearspace.presentation.main.MainFragment
-import ru.brauer.nearspace.presentation.mars.MarsFragment
-import ru.brauer.nearspace.presentation.weather.WeatherFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,43 +18,42 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private lateinit var activeFragment: Fragment
+    private val router: Router by lazy { Router(supportFragmentManager) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         if (savedInstanceState == null) {
-            supportFragmentManager
-                .beginTransaction()
-                .addAndHide(MainFragment.newInstance())
-                .addAndHide(EarthFragment.newInstance())
-                .addAndHide(MarsFragment.newInstance())
-                .addAndHide(WeatherFragment.newInstance())
-                .commitNow()
-        }
+            router.initNavigation()
+        } else {
 
-        activeFragment = requireNotNull(
-            supportFragmentManager.findFragmentByTag(
-                savedInstanceState?.getString(TAG_SAVE_STATE_TAG_ACTIVE_FRAGMENT)
-                    ?: MainFragment::class.java.name
-            )
-        )
-        supportFragmentManager
-            .beginTransaction()
-            .show(activeFragment)
-            .commitNow()
+            savedInstanceState.getString(TAG_SAVE_STATE_TAG_ACTIVE_FRAGMENT)
+                ?.let { router.state = it }
+        }
 
         binding.bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             binding.bottomNavigationView.getBadge(item.itemId)?.let {
                 binding.bottomNavigationView.removeBadge(item.itemId)
             }
             when (item.itemId) {
-                R.id.bottom_view_photo_of_day -> reactivateFragment(MainFragment::class.java.name)
-                R.id.bottom_view_earth -> reactivateFragment(EarthFragment::class.java.name)
-                R.id.bottom_view_mars -> reactivateFragment(MarsFragment::class.java.name)
-                R.id.bottom_view_weather -> reactivateFragment(WeatherFragment::class.java.name)
+                R.id.bottom_view_photo_of_day -> {
+                    router.gotoPhotoOfDay()
+                    true
+                }
+                R.id.bottom_view_earth -> {
+                    router.gotoEarth()
+                    true
+                }
+                R.id.bottom_view_mars -> {
+                    router.gotoMars()
+                    true
+                }
+                R.id.bottom_view_weather -> {
+                    router.gotoWeather()
+                    true
+                }
                 R.id.bottom_view_more -> {
-                    BottomNavigationDrawerFragment().show(supportFragmentManager, "tag")
+                    router.showBottomNavigationDrawer()
                     false
                 }
                 else -> false
@@ -91,24 +83,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(TAG_SAVE_STATE_TAG_ACTIVE_FRAGMENT, activeFragment::class.java.name)
+        outState.putString(TAG_SAVE_STATE_TAG_ACTIVE_FRAGMENT, router.state)
     }
-
-    private fun reactivateFragment(tag: String): Boolean {
-        supportFragmentManager
-            .findFragmentByTag(tag)
-            ?.let {
-                supportFragmentManager
-                    .beginTransaction()
-                    .hide(activeFragment)
-                    .show(it)
-                    .commitNow()
-                activeFragment = it
-            }
-        return true
-    }
-
-    private fun FragmentTransaction.addAndHide(fragment: Fragment): FragmentTransaction =
-        this.add(R.id.activity_bottom_container, fragment, fragment::class.java.name)
-            .hide(fragment)
 }
