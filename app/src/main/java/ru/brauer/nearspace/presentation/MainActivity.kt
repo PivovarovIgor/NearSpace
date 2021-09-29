@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             router.initNavigation()
         } else {
-
             savedInstanceState.getString(TAG_SAVE_STATE_TAG_ACTIVE_FRAGMENT)
                 ?.let { router.state = it }
         }

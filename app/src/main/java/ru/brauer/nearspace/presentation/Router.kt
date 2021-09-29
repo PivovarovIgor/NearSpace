@@ -36,6 +36,7 @@ class Router(private val fragmentManager: FragmentManager) {
             .addAndHide(MarsFragment.newInstance())
             .addAndHide(WeatherFragment.newInstance())
             .commitNow()
+        gotoPhotoOfDay()
     }
 
     fun gotoPhotoOfDay() {
