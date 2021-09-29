@@ -1,5 +1,6 @@
 package ru.brauer.nearspace.presentation
 
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -8,9 +9,14 @@ import ru.brauer.nearspace.presentation.earth.EarthFragment
 import ru.brauer.nearspace.presentation.main.BottomNavigationDrawerFragment
 import ru.brauer.nearspace.presentation.main.MainFragment
 import ru.brauer.nearspace.presentation.mars.MarsFragment
+import ru.brauer.nearspace.presentation.settings.SettingsFragment
 import ru.brauer.nearspace.presentation.weather.WeatherFragment
 
-class Router(private val fragmentManager: FragmentManager) {
+class MainRouter(private val fragmentManager: FragmentManager) {
+
+    companion object {
+        private const val TAG_BOTTOM_NAVIGATION = "TAG_BOTTOM_NAVIGATION"
+    }
 
     private var activeFragment: Fragment = MainFragment.newInstance()
         set(value) {
@@ -40,31 +46,46 @@ class Router(private val fragmentManager: FragmentManager) {
     }
 
     fun gotoPhotoOfDay() {
+        fragmentManager.popBackStack()
         MainFragment::class.java.name
             .findFragment()
             .let { activeFragment = it }
     }
 
     fun gotoEarth() {
+        fragmentManager.popBackStack()
         EarthFragment::class.java.name
             .findFragment()
             .let { activeFragment = it }
     }
 
     fun gotoMars() {
+        fragmentManager.popBackStack()
         MarsFragment::class.java.name
             .findFragment()
             .let { activeFragment = it }
     }
 
     fun gotoWeather() {
+        fragmentManager.popBackStack()
         WeatherFragment::class.java.name
             .findFragment()
             .let { activeFragment = it }
     }
 
+    fun gotoSettings() {
+        fragmentManager
+            .findFragmentByTag(TAG_BOTTOM_NAVIGATION)
+            ?.let { (it as  DialogFragment).dismissAllowingStateLoss()}
+        fragmentManager
+            .beginTransaction()
+            .replace(R.id.activity_bottom_container, SettingsFragment.newInstance())
+            .addToBackStack(null)
+            .commit()
+    }
+
     fun showBottomNavigationDrawer() {
-        BottomNavigationDrawerFragment().show(fragmentManager, "tag")
+        BottomNavigationDrawerFragment().show(fragmentManager, TAG_BOTTOM_NAVIGATION)
     }
 
     private fun FragmentTransaction.addAndHide(fragment: Fragment): FragmentTransaction =

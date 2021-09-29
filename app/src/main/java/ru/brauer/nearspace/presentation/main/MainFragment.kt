@@ -11,9 +11,7 @@ const val SAVING_STATE_PAGE = "SAVING_STATE_PAGE"
 
 class MainFragment : Fragment() {
 
-    private var _binding: FragmentMainBinding? = null
-    private val binding get() = _binding!!
-
+    private var binding: FragmentMainBinding? = null
 
     companion object {
 
@@ -24,9 +22,9 @@ class MainFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentMainBinding.inflate(inflater, container, false)
-        return binding.root
+    ): View? {
+        binding = FragmentMainBinding.inflate(inflater, container, false)
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,19 +34,23 @@ class MainFragment : Fragment() {
 
     private fun setPager(savedInstanceState: Bundle?) {
         val pagerAdapter = ApodViewPagerAdapter(childFragmentManager)
-        binding.pagerPhotoOfDay.adapter = pagerAdapter
-        binding.pagerPhotoOfDay.currentItem =
-            savedInstanceState?.getInt(SAVING_STATE_PAGE) ?: pagerAdapter.count - 1
+        binding?.apply {
+            pagerPhotoOfDay.adapter = pagerAdapter
+            pagerPhotoOfDay.currentItem =
+                savedInstanceState?.getInt(SAVING_STATE_PAGE) ?: pagerAdapter.count - 1
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(SAVING_STATE_PAGE, binding.pagerPhotoOfDay.currentItem)
+        binding?.run {
+            outState.putInt(SAVING_STATE_PAGE, pagerPhotoOfDay.currentItem)
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding = null
     }
 }
 

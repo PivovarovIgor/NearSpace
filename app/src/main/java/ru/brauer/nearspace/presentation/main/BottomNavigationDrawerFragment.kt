@@ -1,5 +1,6 @@
 package ru.brauer.nearspace.presentation.main
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,17 +9,25 @@ import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ru.brauer.nearspace.R
 import ru.brauer.nearspace.databinding.BottomNavigationLayoutBinding
+import ru.brauer.nearspace.presentation.MainRouterHolder
 
 class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
 
     private var _binding: BottomNavigationLayoutBinding? = null
     private val binding get() = _binding!!
 
+    private var mainRouterHolder: MainRouterHolder? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mainRouterHolder = context as? MainRouterHolder
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = BottomNavigationLayoutBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -28,7 +37,9 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
 
         binding.navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.navigation_settings -> Toast.makeText(context, "1", Toast.LENGTH_LONG).show()
+                R.id.navigation_settings -> {
+                    mainRouterHolder?.apply { mainRouter.gotoSettings() }
+                }
                 R.id.navigation_two -> Toast.makeText(context, "2", Toast.LENGTH_LONG).show()
             }
             true
@@ -40,4 +51,8 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
         _binding = null
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        mainRouterHolder = null
+    }
 }
