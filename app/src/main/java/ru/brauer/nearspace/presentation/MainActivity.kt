@@ -6,6 +6,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import ru.brauer.nearspace.R
 import ru.brauer.nearspace.databinding.ActivityMainBinding
+import ru.brauer.nearspace.presentation.settings.SettingsStorage
 
 class MainActivity : AppCompatActivity(), MainRouterHolder {
 
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity(), MainRouterHolder {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(SettingsStorage(this).theme)
         setContentView(binding.root)
         if (savedInstanceState == null) {
             mainRouter.initNavigation()
