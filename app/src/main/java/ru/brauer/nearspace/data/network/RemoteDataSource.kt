@@ -31,7 +31,10 @@ class RemoteDataSource {
             .enqueue(callback)
     }
 
-    fun getCuriosityPhotos(date: String?, callBackResponse: CallbackResponse<MarsRoverPhotoResponse>) {
+    fun getCuriosityPhotos(
+        date: String?,
+        callBackResponse: CallbackResponse<MarsRoverPhotoResponse>
+    ) {
 
         val callback = getCallback(callBackResponse)
 
@@ -47,7 +50,10 @@ class RemoteDataSource {
                 if (response.isSuccessful && serverResponse != null) {
                     callbackResponse.notify(serverResponse)
                 } else {
-                    callbackResponse.notify(null, response.message())
+                    callbackResponse.notify(
+                        null,
+                        "code=${response.code()}\nmessage=${response.message()}"
+                    )
                 }
             }
 

@@ -97,11 +97,11 @@ class PhotoOfDayFragment : Fragment() {
                 )
 
                 it.scaleType =
-                if (it.scaleType == ImageView.ScaleType.CENTER_CROP) {
-                    ImageView.ScaleType.FIT_CENTER
-                } else {
-                    ImageView.ScaleType.CENTER_CROP
-                }
+                    if (it.scaleType == ImageView.ScaleType.CENTER_CROP) {
+                        ImageView.ScaleType.FIT_CENTER
+                    } else {
+                        ImageView.ScaleType.CENTER_CROP
+                    }
                 true
             }
         }
@@ -122,10 +122,14 @@ class PhotoOfDayFragment : Fragment() {
                 binding?.apply {
                     showVideo.hide()
                     astronomyPictureOfTheDey.hide()
+                    errorMessage.hide()
                 }
             }
             is PhotoOfDayAppState.Error -> {
-                showMessageAndToRepeat(photoOfDayAppState.exception.message ?: "Undefine problem.")
+                binding?.apply {
+                    errorMessage.text = photoOfDayAppState.exception.message ?: "Undefine problem."
+                    errorMessage.show()
+                }
             }
             is PhotoOfDayAppState.Success -> {
                 showPhotoOfDay(photoOfDayAppState.apod)
