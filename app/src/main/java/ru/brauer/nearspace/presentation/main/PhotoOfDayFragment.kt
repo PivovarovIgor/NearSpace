@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import coil.load
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import ru.brauer.nearspace.R
 import ru.brauer.nearspace.databinding.FragmentPhotoOfDayBinding
 import ru.brauer.nearspace.domain.entities.Apod
 
@@ -145,7 +146,10 @@ class PhotoOfDayFragment : Fragment() {
                 showVideo.loadUrl(apod.url)
             } else {
                 astronomyPictureOfTheDey.show()
-                astronomyPictureOfTheDey.load(apod.url)
+                astronomyPictureOfTheDey.load(apod.url) {
+                    crossfade(true)
+                    placeholder(R.drawable.ic_baseline_photo_size_select_actual_24)
+                }
             }
             includingBottomSheet.bottomSheetDescriptionHeader.text =
                 apod.photoDescription
@@ -168,9 +172,9 @@ class PhotoOfDayFragment : Fragment() {
     }
 
     private fun View.show() {
-        binding?.run {
-            TransitionManager.beginDelayedTransition(root)
-        }
+//        binding?.run {
+//            TransitionManager.beginDelayedTransition(root)
+//        }
         visibility = View.VISIBLE
     }
 }
