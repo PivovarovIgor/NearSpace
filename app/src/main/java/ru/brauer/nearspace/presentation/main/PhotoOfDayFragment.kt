@@ -19,7 +19,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import coil.load
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.snackbar.Snackbar
 import ru.brauer.nearspace.databinding.FragmentPhotoOfDayBinding
 import ru.brauer.nearspace.domain.entities.Apod
 
@@ -141,35 +140,18 @@ class PhotoOfDayFragment : Fragment() {
         binding?.apply {
             astronomyPictureOfTheDey.contentDescription = apod.title
             if (apod.mediaType == MEDIA_TYPE_VIDEO
-                && apod.url != null
             ) {
-                showVideo.loadUrl(apod.url)
                 showVideo.show()
+                showVideo.loadUrl(apod.url)
             } else {
-                astronomyPictureOfTheDey.load(apod.url)
                 astronomyPictureOfTheDey.show()
+                astronomyPictureOfTheDey.load(apod.url)
             }
             includingBottomSheet.bottomSheetDescriptionHeader.text =
                 apod.photoDescription
         }
     }
 
-
-    private fun showMessageAndToRepeat(message: String) {
-        context?.let { contextNitNull ->
-            binding?.let { bindingNotNull ->
-                Snackbar.make(
-                    contextNitNull,
-                    bindingNotNull.root,
-                    message,
-                    Snackbar.LENGTH_INDEFINITE
-                )
-                    .setAction("Repeat") {
-                        viewModel.getPhotoOfDay(date)
-                    }
-            }
-        }
-    }
 
     private fun setBottomSheetBehavior(bottomSheet: ConstraintLayout) {
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
