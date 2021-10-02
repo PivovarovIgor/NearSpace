@@ -12,7 +12,7 @@ class RepositoryImpl(private val remoteDataSource: RemoteDataSource = RemoteData
 
     override fun getData(date: String?, callbackApod: CallbackApod) {
 
-        val callbackApod = object : CallbackResponse<ApodResponse> {
+        val callback = object : CallbackResponse<ApodResponse> {
             override fun notify(response: ApodResponse?, onServerFailureMessage: String?) {
                 callbackApod.notify(response?.toBusiness(), onServerFailureMessage)
             }
@@ -23,7 +23,7 @@ class RepositoryImpl(private val remoteDataSource: RemoteDataSource = RemoteData
 
         }
 
-        remoteDataSource.getApod(date, callbackApod)
+        remoteDataSource.getApod(date, callback)
     }
 }
 
