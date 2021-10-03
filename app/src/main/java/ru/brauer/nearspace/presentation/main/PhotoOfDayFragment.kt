@@ -18,6 +18,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import coil.load
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import ru.brauer.nearspace.R
 import ru.brauer.nearspace.databinding.FragmentPhotoOfDayBinding
@@ -172,9 +173,6 @@ class PhotoOfDayFragment : Fragment() {
     }
 
     private fun View.show() {
-//        binding?.run {
-//            TransitionManager.beginDelayedTransition(root)
-//        }
         visibility = View.VISIBLE
     }
 }
