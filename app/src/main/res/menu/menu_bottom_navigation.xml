@@ -6,8 +6,8 @@
             android:icon="@drawable/ic_settings_menu"
             android:title="@string/settings" />
         <item
-            android:id="@+id/navigation_two"
-            android:icon="@drawable/ic_send"
-            android:title="to screen two" />
+            android:id="@+id/navigation_notes"
+            android:icon="@drawable/ic_baseline_notes_24"
+            android:title="@string/notes" />
     </group>
 </menu>

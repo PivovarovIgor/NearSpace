@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ru.brauer.nearspace.R
 import ru.brauer.nearspace.databinding.BottomNavigationLayoutBinding
@@ -38,9 +37,17 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
         binding.navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.navigation_settings -> {
-                    mainRouterHolder?.apply { mainRouter.gotoSettings() }
+                    mainRouterHolder?.apply {
+                        mainRouter.gotoSettings()
+                        dismissAllowingStateLoss()
+                    }
                 }
-                R.id.navigation_two -> Toast.makeText(context, "2", Toast.LENGTH_LONG).show()
+                R.id.navigation_notes -> {
+                    mainRouterHolder?.apply {
+                        mainRouter.gotoNotes()
+                        dismissAllowingStateLoss()
+                    }
+                }
             }
             true
         }

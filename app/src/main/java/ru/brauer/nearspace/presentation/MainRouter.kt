@@ -1,6 +1,5 @@
 package ru.brauer.nearspace.presentation
 
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -9,6 +8,7 @@ import ru.brauer.nearspace.presentation.earth.EarthFragment
 import ru.brauer.nearspace.presentation.main.BottomNavigationDrawerFragment
 import ru.brauer.nearspace.presentation.main.MainFragment
 import ru.brauer.nearspace.presentation.mars.MarsFragment
+import ru.brauer.nearspace.presentation.notes.NotesFragment
 import ru.brauer.nearspace.presentation.settings.SettingsFragment
 import ru.brauer.nearspace.presentation.weather.WeatherFragment
 
@@ -75,11 +75,16 @@ class MainRouter(private val fragmentManager: FragmentManager) {
 
     fun gotoSettings() {
         fragmentManager
-            .findFragmentByTag(TAG_BOTTOM_NAVIGATION)
-            ?.let { (it as  DialogFragment).dismissAllowingStateLoss()}
-        fragmentManager
             .beginTransaction()
             .replace(R.id.activity_bottom_container, SettingsFragment.newInstance())
+            .addToBackStack(null)
+            .commit()
+    }
+
+    fun gotoNotes() {
+        fragmentManager
+            .beginTransaction()
+            .replace(R.id.activity_bottom_container, NotesFragment.newInstance())
             .addToBackStack(null)
             .commit()
     }
