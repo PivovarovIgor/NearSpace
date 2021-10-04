@@ -20,4 +20,9 @@
     <string name="more">more</string>
     <string name="notes">Notes</string>
     <string name="delete">delete</string>
+    <string name="edit">edit</string>
+    <string name="text_of_note">text of note</string>
+    <string name="apply">apply</string>
+    <string name="cancel">Cancel</string>
+    <string name="edit_note">Editing the note</string>
 </resources>

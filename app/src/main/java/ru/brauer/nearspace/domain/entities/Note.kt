@@ -1,3 +1,7 @@
 package ru.brauer.nearspace.domain.entities
 
-data class Note(val noteText: String)
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class Note(val noteText: String) : Parcelable
