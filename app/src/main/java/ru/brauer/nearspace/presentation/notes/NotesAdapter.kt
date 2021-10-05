@@ -13,8 +13,13 @@ class NotesAdapter(
 ) :
     RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
 
+    companion object {
+        private const val MOVING_UP = -1
+        private const val MOVING_DOWN = 1
+    }
+
     var contextMenuPosition: Int = RecyclerView.NO_POSITION
-    private set
+        private set
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = RecyclerViewItemOfNotesBinding.inflate(
@@ -23,13 +28,38 @@ class NotesAdapter(
             false
         )
         registerForContextMenu(binding.root)
+
         val vh = ViewHolder(binding)
         binding.root.setOnLongClickListener {
             contextMenuPosition = vh.adapterPosition
             it.showContextMenu()
             true
         }
+
+        binding.buttonNoteUp.setOnClickListener {
+            moveItem(MOVING_UP) { vh.adapterPosition }
+        }
+
+        binding.buttonNoteDown.setOnClickListener {
+            moveItem(MOVING_DOWN) { vh.adapterPosition }
+        }
+
         return vh
+    }
+
+    private inline fun moveItem(offset: Int, position: () -> Int) {
+        val pos = position()
+        require(offset == MOVING_UP || offset == MOVING_DOWN)
+        viewModel.run {
+            if (offset == -1 && pos > 0
+                || offset == 1 && pos < notes.size - 1
+            ) {
+                val noteHolder = notes[pos]
+                notes[pos] = notes[pos + offset]
+                notes[pos + offset] = noteHolder
+                notifyItemMoved(pos, pos + offset)
+            }
+        }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -43,6 +73,5 @@ class NotesAdapter(
         fun bind(note: Note) {
             binding.noteText.text = note.noteText
         }
-
     }
 }

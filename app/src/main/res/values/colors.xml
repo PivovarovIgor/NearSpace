@@ -15,6 +15,11 @@
     <color name="yellow_600">#FB8C00</color>
     <color name="blue_100">#BBDEFB</color>
     <color name="blue_300">#4FC3F7</color>
+    <color name="blue_700">#0288D1</color>
+    <color name="blue_900">#01579B</color>
+
+    <color name="green_700">#388E3C</color>
+    <color name="green_900">#1B5E20</color>
 
     <color name="orange_400">#FF7043</color>
     <color name="orange_600">#F4511E</color>

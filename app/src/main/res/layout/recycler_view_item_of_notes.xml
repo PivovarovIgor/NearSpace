@@ -15,4 +15,27 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="some note" />
 
+    <ImageButton
+        android:id="@+id/button_note_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_baseline_arrow_drop_down_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@color/blue_700"
+        android:contentDescription="@string/move_down" />
+
+    <ImageButton
+        android:id="@+id/button_note_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/ic_baseline_arrow_drop_up_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/button_note_down"
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@color/green_700"
+        android:contentDescription="@string/move_up" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

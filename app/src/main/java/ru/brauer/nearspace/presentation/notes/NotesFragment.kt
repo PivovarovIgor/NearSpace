@@ -32,6 +32,7 @@ class NotesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
+
             listOfNotes.adapter = adapter
             listOfNotes.addItemDecoration(
                 DividerItemDecoration(
@@ -39,6 +40,7 @@ class NotesFragment : Fragment() {
                     LinearLayoutManager.VERTICAL
                 )
             )
+
             buttonFabAdd.setOnClickListener {
                 showEditDialog(null) { _, result ->
                     result.getParcelable<Note>(
