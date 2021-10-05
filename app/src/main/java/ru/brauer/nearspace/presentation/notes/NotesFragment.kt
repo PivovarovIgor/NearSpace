@@ -64,26 +64,24 @@ class NotesFragment : Fragment() {
                 true
             }
             R.id.context_menu_item_edit -> {
-                binding?.apply {
-                    val contextMenuPosition = adapter.contextMenuPosition
-                    if (contextMenuPosition != RecyclerView.NO_POSITION) {
-                        val fragment =
-                            NoteEditFragment.newInstance(viewModel.notes[contextMenuPosition])
-                        childFragmentManager.setFragmentResultListener(
-                            NoteEditFragment.KEY_FRAGMENT_RESULT,
-                            viewLifecycleOwner,
-                            { requestKey, result ->
-                                viewModel.notes[contextMenuPosition] =
-                                    requireNotNull(
-                                        result.getParcelable(
-                                            NoteEditFragment.KEY_FRAGMENT_RESULT
-                                        )
+                val contextMenuPosition = adapter.contextMenuPosition
+                if (contextMenuPosition != RecyclerView.NO_POSITION) {
+                    val fragment =
+                        NoteEditFragment.newInstance(viewModel.notes[contextMenuPosition])
+                    childFragmentManager.setFragmentResultListener(
+                        NoteEditFragment.KEY_FRAGMENT_RESULT,
+                        viewLifecycleOwner,
+                        { _, result ->
+                            viewModel.notes[contextMenuPosition] =
+                                requireNotNull(
+                                    result.getParcelable(
+                                        NoteEditFragment.KEY_FRAGMENT_RESULT
                                     )
-                                adapter.notifyItemChanged(contextMenuPosition)
-                            }
-                        )
-                        fragment.show(childFragmentManager, null)
-                    }
+                                )
+                            adapter.notifyItemChanged(contextMenuPosition)
+                        }
+                    )
+                    fragment.show(childFragmentManager, null)
                 }
                 true
             }
