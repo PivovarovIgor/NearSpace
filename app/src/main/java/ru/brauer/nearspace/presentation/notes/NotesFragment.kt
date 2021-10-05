@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.brauer.nearspace.R
 import ru.brauer.nearspace.databinding.FragmentNotesBinding
+import ru.brauer.nearspace.domain.entities.Note
 
 class NotesFragment : Fragment() {
 
@@ -38,6 +39,16 @@ class NotesFragment : Fragment() {
                     LinearLayoutManager.VERTICAL
                 )
             )
+            buttonFabAdd.setOnClickListener {
+                showEditDialog(null) { _, result ->
+                    result.getParcelable<Note>(
+                        NoteEditFragment.KEY_FRAGMENT_EDIT_RESULT
+                    )?.let {
+                        viewModel.notes += it
+                    }
+                    adapter.notifyItemChanged(viewModel.notes.size - 1)
+                }
+            }
         }
     }
 
@@ -66,27 +77,33 @@ class NotesFragment : Fragment() {
             R.id.context_menu_item_edit -> {
                 val contextMenuPosition = adapter.contextMenuPosition
                 if (contextMenuPosition != RecyclerView.NO_POSITION) {
-                    val fragment =
-                        NoteEditFragment.newInstance(viewModel.notes[contextMenuPosition])
-                    childFragmentManager.setFragmentResultListener(
-                        NoteEditFragment.KEY_FRAGMENT_RESULT,
-                        viewLifecycleOwner,
-                        { _, result ->
-                            viewModel.notes[contextMenuPosition] =
-                                requireNotNull(
-                                    result.getParcelable(
-                                        NoteEditFragment.KEY_FRAGMENT_RESULT
-                                    )
-                                )
-                            adapter.notifyItemChanged(contextMenuPosition)
+                    showEditDialog(viewModel.notes[contextMenuPosition]) { _, result ->
+                        result.getParcelable<Note>(
+                            NoteEditFragment.KEY_FRAGMENT_EDIT_RESULT
+                        )?.let {
+                            viewModel.notes[contextMenuPosition] = it
                         }
-                    )
-                    fragment.show(childFragmentManager, null)
+                        adapter.notifyItemChanged(contextMenuPosition)
+                    }
                 }
                 true
             }
             else -> false
         }
+    }
+
+    private fun showEditDialog(
+        note: Note?,
+        callback: (requestKey: String, result: Bundle) -> Unit
+    ) {
+        childFragmentManager.setFragmentResultListener(
+            NoteEditFragment.KEY_FRAGMENT_EDIT_RESULT,
+            viewLifecycleOwner,
+            callback
+        )
+        NoteEditFragment
+            .newInstance(note)
+            .show(childFragmentManager, null)
     }
 
     override fun onDestroyView() {

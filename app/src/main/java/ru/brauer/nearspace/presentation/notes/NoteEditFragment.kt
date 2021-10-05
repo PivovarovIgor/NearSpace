@@ -15,17 +15,19 @@ class NoteEditFragment : DialogFragment() {
     companion object {
 
         private const val KEY_ARG_NOTE = "KEY_ARG_NOTE"
-        const val KEY_FRAGMENT_RESULT = "KEY_FRAGMENT_RESULT"
+        const val KEY_FRAGMENT_EDIT_RESULT = "NoteEditFragment_EDIT_RESULT"
 
-        fun newInstance(note: Note) = NoteEditFragment().apply {
+        fun newInstance(note: Note?) = NoteEditFragment().apply {
             arguments = Bundle().apply {
-                putParcelable(KEY_ARG_NOTE, note)
+                if (note != null) {
+                    putParcelable(KEY_ARG_NOTE, note)
+                }
             }
         }
     }
 
     private var binding: FragmentEditNoteBinding? = null
-    private val note: Note by lazy { requireNotNull(arguments?.getParcelable(KEY_ARG_NOTE)) as Note }
+    private val note: Note by lazy { arguments?.getParcelable(KEY_ARG_NOTE) ?: Note("") }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,8 +43,8 @@ class NoteEditFragment : DialogFragment() {
         binding?.apply {
             inputText.setText(note.noteText, TextView.BufferType.EDITABLE)
             apply.setOnClickListener {
-                setFragmentResult(KEY_FRAGMENT_RESULT, Bundle().apply {
-                    putParcelable(KEY_FRAGMENT_RESULT, Note(inputText.text.toString()))
+                setFragmentResult(KEY_FRAGMENT_EDIT_RESULT, Bundle().apply {
+                    putParcelable(KEY_FRAGMENT_EDIT_RESULT, Note(inputText.text.toString()))
                 })
                 dismissAllowingStateLoss()
             }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.notes.NotesFragment">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -12,6 +12,17 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/recycler_view_item_of_notes"/>
+        tools:listitem="@layout/recycler_view_item_of_notes" />
 
-</FrameLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button_fab_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/add"
+        android:layout_marginBottom="10dp"
+        app:layout_anchor="@id/list_of_notes"
+        app:layout_anchorGravity="bottom|center"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+        app:srcCompat="@drawable/ic_plus_fab" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
