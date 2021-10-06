@@ -4,4 +4,4 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Note(val noteText: String) : Parcelable
+data class Note(val noteText: String, val description: String = "") : Parcelable

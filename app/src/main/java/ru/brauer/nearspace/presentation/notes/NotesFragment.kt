@@ -46,7 +46,7 @@ class NotesFragment : Fragment() {
                     result.getParcelable<Note>(
                         NoteEditFragment.KEY_FRAGMENT_EDIT_RESULT
                     )?.let {
-                        viewModel.notes += it
+                        viewModel.notes += it to false
                     }
                     adapter.notifyItemChanged(viewModel.notes.size - 1)
                 }
@@ -79,11 +79,11 @@ class NotesFragment : Fragment() {
             R.id.context_menu_item_edit -> {
                 val contextMenuPosition = adapter.contextMenuPosition
                 if (contextMenuPosition != RecyclerView.NO_POSITION) {
-                    showEditDialog(viewModel.notes[contextMenuPosition]) { _, result ->
+                    showEditDialog(viewModel.notes[contextMenuPosition].first) { _, result ->
                         result.getParcelable<Note>(
                             NoteEditFragment.KEY_FRAGMENT_EDIT_RESULT
                         )?.let {
-                            viewModel.notes[contextMenuPosition] = it
+                            viewModel.notes[contextMenuPosition] = it to false
                         }
                         adapter.notifyItemChanged(contextMenuPosition)
                     }

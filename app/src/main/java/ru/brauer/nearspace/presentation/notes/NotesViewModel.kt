@@ -10,9 +10,9 @@ class NotesViewModel(
     interactor: NotesInteractor = NotesInteractorImpl(NotesHardCodeRepositoryImpl())
 ) : ViewModel() {
 
-    val notes: MutableList<Note> = mutableListOf()
+    val notes: MutableList<Pair<Note, Boolean>> = mutableListOf()
 
     init {
-        interactor.notes.forEach { notes += it }
+        interactor.notes.forEach { notes += it to false }
     }
 }

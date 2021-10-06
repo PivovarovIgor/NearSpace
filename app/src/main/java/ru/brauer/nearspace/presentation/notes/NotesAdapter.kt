@@ -30,18 +30,27 @@ class NotesAdapter(
         registerForContextMenu(binding.root)
 
         val vh = ViewHolder(binding)
-        binding.root.setOnLongClickListener {
-            contextMenuPosition = vh.adapterPosition
-            it.showContextMenu()
-            true
-        }
+        binding.run {
+            root.setOnLongClickListener {
+                contextMenuPosition = vh.adapterPosition
+                it.showContextMenu()
+                true
+            }
 
-        binding.buttonNoteUp.setOnClickListener {
-            moveItem(MOVING_UP) { vh.adapterPosition }
-        }
+            buttonNoteUp.setOnClickListener {
+                moveItem(MOVING_UP) { vh.adapterPosition }
+            }
 
-        binding.buttonNoteDown.setOnClickListener {
-            moveItem(MOVING_DOWN) { vh.adapterPosition }
+            buttonNoteDown.setOnClickListener {
+                moveItem(MOVING_DOWN) { vh.adapterPosition }
+            }
+
+            noteText.setOnClickListener {
+                viewModel.notes[vh.adapterPosition] =
+                    (viewModel.notes[vh.adapterPosition].first to
+                            !viewModel.notes[vh.adapterPosition].second)
+                notifyItemChanged(vh.adapterPosition)
+            }
         }
 
         return vh
@@ -72,8 +81,12 @@ class NotesAdapter(
 
     inner class ViewHolder(private val binding: RecyclerViewItemOfNotesBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(note: Note) {
-            binding.noteText.text = note.noteText
+        fun bind(noteRec: Pair<Note, Boolean>) {
+            binding.run {
+                noteText.text = noteRec.first.noteText
+                noteDescription.text = noteRec.first.description
+                noteDescription.visibility = if (noteRec.second) View.VISIBLE else View.GONE
+            }
         }
     }
 }
