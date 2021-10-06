@@ -50,14 +50,16 @@ class NotesAdapter(
     private inline fun moveItem(offset: Int, position: () -> Int) {
         val pos = position()
         require(offset == MOVING_UP || offset == MOVING_DOWN)
-        viewModel.run {
-            if (offset == -1 && pos > 0
-                || offset == 1 && pos < notes.size - 1
-            ) {
-                val noteHolder = notes[pos]
-                notes[pos] = notes[pos + offset]
-                notes[pos + offset] = noteHolder
-                notifyItemMoved(pos, pos + offset)
+        if (pos != RecyclerView.NO_POSITION) {
+            viewModel.run {
+                if (offset == -1 && pos > 0
+                    || offset == 1 && pos < notes.size - 1
+                ) {
+                    val noteHolder = notes[pos]
+                    notes[pos] = notes[pos + offset]
+                    notes[pos + offset] = noteHolder
+                    notifyItemMoved(pos, pos + offset)
+                }
             }
         }
     }
