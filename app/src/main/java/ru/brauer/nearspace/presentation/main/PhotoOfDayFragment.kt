@@ -23,9 +23,6 @@ import ru.brauer.nearspace.R
 import ru.brauer.nearspace.databinding.FragmentPhotoOfDayBinding
 import ru.brauer.nearspace.domain.entities.Apod
 
-private const val KEY_DATE = "date"
-private const val MEDIA_TYPE_VIDEO = "video"
-
 class PhotoOfDayFragment : Fragment() {
 
     private var binding: FragmentPhotoOfDayBinding? = null
@@ -37,6 +34,9 @@ class PhotoOfDayFragment : Fragment() {
     private var date: Long? = null
 
     companion object {
+
+        private const val KEY_DATE = "date"
+        private const val MEDIA_TYPE_VIDEO = "video"
 
         fun newInstance(date: Long? = null): PhotoOfDayFragment =
             PhotoOfDayFragment().apply {

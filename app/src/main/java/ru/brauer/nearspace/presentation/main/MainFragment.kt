@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import ru.brauer.nearspace.databinding.FragmentMainBinding
 
-const val SAVING_STATE_PAGE = "SAVING_STATE_PAGE"
-
 class MainFragment : Fragment() {
 
     private var binding: FragmentMainBinding? = null
 
     companion object {
+
+        private const val SAVING_STATE_PAGE = "SAVING_STATE_PAGE"
 
         @JvmStatic
         fun newInstance() = MainFragment()

@@ -4,9 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.annotation.StyleRes
 
-private const val FILE_NAME = "app_settings"
-private const val KEY_THEME = "key_theme"
-
 class SettingsStorage(private val sharedPreferences: SharedPreferences) {
     constructor(context: Context) : this(
         context.getSharedPreferences(
@@ -14,6 +11,11 @@ class SettingsStorage(private val sharedPreferences: SharedPreferences) {
             Context.MODE_PRIVATE
         )
     )
+
+    companion object {
+        private const val FILE_NAME = "app_settings"
+        private const val KEY_THEME = "key_theme"
+    }
 
     var theme: Int
         set(@StyleRes value) = sharedPreferences.edit()
