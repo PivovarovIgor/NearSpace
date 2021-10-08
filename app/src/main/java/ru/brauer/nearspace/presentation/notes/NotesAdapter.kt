@@ -1,9 +1,12 @@
 package ru.brauer.nearspace.presentation.notes
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.MotionEventCompat
 import androidx.recyclerview.widget.RecyclerView
 import ru.brauer.nearspace.databinding.RecyclerViewItemOfNotesBinding
 import ru.brauer.nearspace.domain.entities.Note
@@ -14,6 +17,8 @@ class NotesAdapter(
 ) :
     RecyclerView.Adapter<NotesAdapter.ViewHolder>(), ItemTouchHelperAdapter {
 
+    var startDrag: (vh: NotesAdapter.ViewHolder) -> Unit = {}
+
     companion object {
         private const val MOVING_UP = -1
         private const val MOVING_DOWN = 1
@@ -22,6 +27,7 @@ class NotesAdapter(
     var contextMenuPosition: Int = RecyclerView.NO_POSITION
         private set
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = RecyclerViewItemOfNotesBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -51,6 +57,13 @@ class NotesAdapter(
                     (viewModel.notes[vh.adapterPosition].first to
                             !viewModel.notes[vh.adapterPosition].second)
                 notifyItemChanged(vh.adapterPosition)
+            }
+
+            dragHandler.setOnTouchListener { _, event ->
+                if (event.action == MotionEvent.ACTION_DOWN) {
+                    startDrag(vh)
+                }
+                false
             }
         }
 
@@ -110,7 +123,7 @@ class NotesAdapter(
         }
 
         override fun onItemClear() {
-            itemView.setBackgroundColor(0)
+            itemView.setBackgroundColor(Color.WHITE)
         }
     }
 }

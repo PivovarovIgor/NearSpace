@@ -28,4 +28,5 @@
     <string name="move_down">move down</string>
     <string name="move_up">move up</string>
     <string name="no_description">no description</string>
+    <string name="drag_handler">drag handler</string>
 </resources>

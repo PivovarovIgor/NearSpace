@@ -41,8 +41,13 @@ class NotesFragment : Fragment() {
                     LinearLayoutManager.VERTICAL
                 )
             )
-            ItemTouchHelper(ItemTouchHelperCallback(adapter))
-                .attachToRecyclerView(listOfNotes)
+            ItemTouchHelper(ItemTouchHelperCallback(adapter)).apply {
+                attachToRecyclerView(listOfNotes)
+            }.also { itemTouchHelper ->
+                adapter.startDrag = { vh ->
+                    itemTouchHelper.startDrag(vh)
+                }
+            }
 
             buttonFabAdd.setOnClickListener {
                 showEditDialog(null) { _, result ->

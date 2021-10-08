@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     android:padding="10dp">
 
     <TextView
         android:id="@+id/note_text"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+        app:layout_constraintEnd_toStartOf="@+id/button_note_up"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="some note" />
@@ -19,35 +21,48 @@
         android:id="@+id/note_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:hint="@string/no_description"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
         android:visibility="gone"
-        android:hint="@string/no_description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/note_text"
         tools:text="description"
         tools:visibility="visible" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/button_note_down"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ic_baseline_arrow_drop_down_24"
-        android:backgroundTint="@color/blue_700"
+        android:layout_height="0dp"
+        android:layout_marginEnd="10dp"
         android:contentDescription="@string/move_down"
+        android:src="@drawable/ic_baseline_arrow_drop_down_24"
         app:layout_constraintBottom_toBottomOf="@id/note_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toStartOf="@id/drag_handler"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/blue_700" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/button_note_up"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/ic_baseline_arrow_drop_up_24"
-        android:backgroundTint="@color/green_700"
+        android:layout_height="0dp"
+        android:layout_marginEnd="10dp"
         android:contentDescription="@string/move_up"
+        android:scaleType="center"
+        android:src="@drawable/ic_baseline_arrow_drop_up_24"
         app:layout_constraintBottom_toBottomOf="@id/button_note_down"
         app:layout_constraintEnd_toStartOf="@id/button_note_down"
+        app:layout_constraintTop_toTopOf="@id/button_note_down"
+        app:tint="@color/green_700" />
+
+    <ImageView
+        android:id="@+id/drag_handler"
+        android:layout_width="35dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/drag_handler"
+        android:scaleType="center"
+        android:src="@drawable/ic_baseline_drag_handle_24"
+        app:layout_constraintBottom_toBottomOf="@id/button_note_down"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/button_note_down" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
