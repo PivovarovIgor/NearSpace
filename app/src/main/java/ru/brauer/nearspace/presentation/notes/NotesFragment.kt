@@ -5,6 +5,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.brauer.nearspace.R
@@ -40,6 +41,8 @@ class NotesFragment : Fragment() {
                     LinearLayoutManager.VERTICAL
                 )
             )
+            ItemTouchHelper(ItemTouchHelperCallback(adapter))
+                .attachToRecyclerView(listOfNotes)
 
             buttonFabAdd.setOnClickListener {
                 showEditDialog(null) { _, result ->

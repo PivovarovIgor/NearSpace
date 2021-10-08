@@ -1,5 +1,6 @@
 package ru.brauer.nearspace.presentation.notes
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,7 @@ class NotesAdapter(
     private val viewModel: NotesViewModel,
     private val registerForContextMenu: (view: View) -> Unit
 ) :
-    RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
+    RecyclerView.Adapter<NotesAdapter.ViewHolder>(), ItemTouchHelperAdapter {
 
     companion object {
         private const val MOVING_UP = -1
@@ -60,16 +61,23 @@ class NotesAdapter(
         val pos = position()
         require(offset == MOVING_UP || offset == MOVING_DOWN)
         if (pos != RecyclerView.NO_POSITION) {
-            viewModel.run {
-                if (offset == -1 && pos > 0
-                    || offset == 1 && pos < notes.size - 1
-                ) {
-                    val noteHolder = notes[pos]
-                    notes[pos] = notes[pos + offset]
-                    notes[pos + offset] = noteHolder
-                    notifyItemMoved(pos, pos + offset)
-                }
+            if (offset == -1 && pos > 0
+                || offset == 1 && pos < viewModel.notes.size - 1
+            ) {
+                swapPairItems(pos, pos + offset)
             }
+        }
+    }
+
+    private fun swapPairItems(
+        fromPosition: Int,
+        toPosition: Int
+    ) {
+        viewModel.run {
+            val noteHolder = notes[fromPosition]
+            notes[fromPosition] = notes[toPosition]
+            notes[toPosition] = noteHolder
+            notifyItemMoved(fromPosition, toPosition)
         }
     }
 
@@ -79,14 +87,30 @@ class NotesAdapter(
 
     override fun getItemCount(): Int = viewModel.notes.size
 
+    override fun onItemMove(fromPosition: Int, toPosition: Int) =
+        swapPairItems(fromPosition, toPosition)
+
+    override fun onItemDismiss(position: Int) {
+        viewModel.notes.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
     inner class ViewHolder(private val binding: RecyclerViewItemOfNotesBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root), ItemTouchHelperViewHolder {
         fun bind(noteRec: Pair<Note, Boolean>) {
             binding.run {
                 noteText.text = noteRec.first.noteText
                 noteDescription.text = noteRec.first.description
                 noteDescription.visibility = if (noteRec.second) View.VISIBLE else View.GONE
             }
+        }
+
+        override fun onItemSelected() {
+            itemView.setBackgroundColor(Color.LTGRAY)
+        }
+
+        override fun onItemClear() {
+            itemView.setBackgroundColor(0)
         }
     }
 }
