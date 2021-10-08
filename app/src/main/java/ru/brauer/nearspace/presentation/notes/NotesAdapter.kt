@@ -1,12 +1,13 @@
 package ru.brauer.nearspace.presentation.notes
 
+import android.animation.ArgbEvaluator
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.MotionEventCompat
 import androidx.recyclerview.widget.RecyclerView
 import ru.brauer.nearspace.databinding.RecyclerViewItemOfNotesBinding
 import ru.brauer.nearspace.domain.entities.Note
@@ -119,11 +120,21 @@ class NotesAdapter(
         }
 
         override fun onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY)
+            ValueAnimator.ofObject(ArgbEvaluator(), Color.WHITE, Color.TRANSPARENT).apply {
+                duration = 200L
+                addUpdateListener {
+                    itemView.setBackgroundColor(it.animatedValue as Int)
+                }
+            }.start()
         }
 
         override fun onItemClear() {
-            itemView.setBackgroundColor(Color.WHITE)
+            ValueAnimator.ofObject(ArgbEvaluator(), Color.TRANSPARENT, Color.WHITE).apply {
+                duration = 200L
+                addUpdateListener {
+                    itemView.setBackgroundColor(it.animatedValue as Int)
+                }
+            }.start()
         }
     }
 }
