@@ -1,13 +1,11 @@
 package ru.brauer.nearspace.presentation.notes
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import ru.brauer.nearspace.R
 import ru.brauer.nearspace.databinding.FragmentNotesBinding
 import ru.brauer.nearspace.domain.entities.Note
@@ -34,6 +32,12 @@ class NotesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
 
+            listOfNotes.layoutManager =
+                if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                } else {
+                    StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                }
             listOfNotes.adapter = adapter
             listOfNotes.addItemDecoration(
                 DividerItemDecoration(
@@ -41,7 +45,13 @@ class NotesFragment : Fragment() {
                     LinearLayoutManager.VERTICAL
                 )
             )
-            ItemTouchHelper(ItemTouchHelperCallback(adapter)).apply {
+
+            ItemTouchHelper(
+                ItemTouchHelperCallback(
+                    adapter,
+                    listOfNotes.layoutManager is LinearLayoutManager
+                )
+            ).apply {
                 attachToRecyclerView(listOfNotes)
             }.also { itemTouchHelper ->
                 adapter.startDrag = { vh ->
