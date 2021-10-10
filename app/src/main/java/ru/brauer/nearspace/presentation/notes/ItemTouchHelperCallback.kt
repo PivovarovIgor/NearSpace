@@ -1,7 +1,9 @@
 package ru.brauer.nearspace.presentation.notes
 
+import android.graphics.Canvas
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import kotlin.math.abs
 
 class ItemTouchHelperCallback(
     private val adapter: ItemTouchHelperAdapter,
@@ -37,7 +39,7 @@ class ItemTouchHelperCallback(
     }
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
-        if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
+        if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
             val itemViewHolder = viewHolder as ItemTouchHelperViewHolder
             itemViewHolder.onItemSelected()
         }
@@ -48,5 +50,24 @@ class ItemTouchHelperCallback(
         super.clearView(recyclerView, viewHolder)
         val itemViewHolder = viewHolder as ItemTouchHelperViewHolder
         itemViewHolder.onItemClear()
+    }
+
+    override fun onChildDraw(
+        c: Canvas,
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder,
+        dX: Float,
+        dY: Float,
+        actionState: Int,
+        isCurrentlyActive: Boolean
+    ) {
+        if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+            with(viewHolder.itemView) {
+                alpha = width.toFloat().let { 1.0f - abs(dX) / it }
+                translationX = dX
+            }
+        } else {
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+        }
     }
 }
