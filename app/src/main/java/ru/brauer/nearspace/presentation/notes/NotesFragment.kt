@@ -32,12 +32,19 @@ class NotesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
 
+            val spanCount =
+                if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) 1 else 2
+
             listOfNotes.layoutManager =
-                if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                } else {
-                    StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-                }
+                StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL)
+                    .also {
+                        it.onRestoreInstanceState(
+                            savedInstanceState?.getParcelable(
+                                KEY_STATE_LAYOUT_MANAGER
+                            )
+                        )
+                    }
+
             listOfNotes.adapter = adapter
             listOfNotes.addItemDecoration(
                 DividerItemDecoration(
@@ -49,7 +56,7 @@ class NotesFragment : Fragment() {
             ItemTouchHelper(
                 ItemTouchHelperCallback(
                     adapter,
-                    listOfNotes.layoutManager is LinearLayoutManager
+                    (spanCount == 1)
                 )
             ).apply {
                 attachToRecyclerView(listOfNotes)
@@ -126,12 +133,23 @@ class NotesFragment : Fragment() {
             .show(childFragmentManager, null)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        binding
+            ?.listOfNotes
+            ?.layoutManager
+            ?.let { outState.putParcelable(KEY_STATE_LAYOUT_MANAGER, it.onSaveInstanceState()) }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
     }
 
     companion object {
+
+        private const val KEY_STATE_LAYOUT_MANAGER = "KEY_STATE_LAYOUT_MANAGER"
+
         @JvmStatic
         fun newInstance() =
             NotesFragment()

@@ -31,6 +31,8 @@ class NotesAdapter(
     var contextMenuPosition: Int = RecyclerView.NO_POSITION
         private set
 
+    private var itemViewCounter = 0
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = RecyclerViewItemOfNotesBinding.inflate(
@@ -42,6 +44,9 @@ class NotesAdapter(
 
         val vh = ViewHolder(binding)
         binding.run {
+
+            itemViewCounter++
+            idViewItem.text = itemViewCounter.toString()
 
             buttonNoteUp.setOnClickListener {
                 moveItem(MOVING_UP) { vh.adapterPosition }
