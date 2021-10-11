@@ -110,7 +110,7 @@ class NotesFragment : Fragment() {
                         )?.let {
                             viewModel.notes[contextMenuPosition] = it to false
                         }
-                        adapter.notifyItemChanged(contextMenuPosition)
+                        adapter.notifyItemChanged(contextMenuPosition, viewModel.notes[contextMenuPosition])
                     }
                 }
                 true

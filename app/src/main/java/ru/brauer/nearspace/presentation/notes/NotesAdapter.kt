@@ -65,7 +65,7 @@ class NotesAdapter(
                 viewModel.notes[vh.adapterPosition] =
                     (viewModel.notes[vh.adapterPosition].first to
                             !viewModel.notes[vh.adapterPosition].second)
-                notifyItemChanged(vh.adapterPosition)
+                notifyItemChanged(vh.adapterPosition, viewModel.notes[vh.adapterPosition])
             }
 
             dragHandler.setOnTouchListener { _, event ->
@@ -105,6 +105,22 @@ class NotesAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(viewModel.notes[position])
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+        if (payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+        } else {
+            payloads
+                .mapNotNull { it as? Pair<*, *> }
+                .mapNotNull {
+                    val first = it.first as? Note
+                    val second = it.second as? Boolean
+                    if (first != null && second != null) first to second else null
+                }
+                .firstOrNull()
+                ?.let { holder.bind(it) }
+        }
     }
 
     override fun getItemCount(): Int = viewModel.notes.size
